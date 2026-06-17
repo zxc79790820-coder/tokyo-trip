@@ -26,9 +26,12 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['-apple-system','BlinkMacSyste
 
 <!-- header -->
 <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-100">
-  <div class="max-w-[560px] mx-auto px-4 py-3">
-    <h1 class="text-[17px] font-extrabold tracking-tight">🗼 東京親子旅遊</h1>
-    <p class="text-[12px] text-slate-500 -mt-0.5">8/19(三)–8/24(一)・6天5夜・基地：新大塚</p>
+  <div class="max-w-[560px] mx-auto px-4 py-3 flex items-center justify-between gap-2">
+    <div class="min-w-0">
+      <h1 class="text-[17px] font-extrabold tracking-tight">🗼 東京親子旅遊</h1>
+      <p class="text-[12px] text-slate-500 -mt-0.5">8/19(三)–8/24(一)・6天5夜・基地：新大塚</p>
+    </div>
+    <a href="https://www.google.com/maps/search/?api=1&query=%E3%82%A8%E3%82%AF%E3%82%BB%E3%83%AB%E6%96%B0%E5%A4%A7%E5%A1%9A" target="_blank" rel="noopener" class="flex-none flex items-center gap-1 bg-amber-500 text-white text-[12px] font-bold px-3 py-2 rounded-full active:scale-95 transition-transform">🏨 基地導航</a>
   </div>
 </header>
 
@@ -68,7 +71,8 @@ const IMG={
   fuji:'1490806843957-31f4c9a91c65', fujiPagoda:'1528164344705-47542687000d',
   kimono:'1493976040374-85c8e12f0c0e', food:'1480796927426-f609979314bd',
   lantern:'1554797589-7241bb691973', fashion:'1480429370139-e0132c086e2a',
-  resid:'1542931287-023b922fa89b', sakura:'1522383225653-ed111181a951'
+  resid:'1542931287-023b922fa89b', sakura:'1522383225653-ed111181a951',
+  aquarium:'1518467166778-b88f373ffec7'
 };
 const imgUrl=(id,w)=>`https://images.unsplash.com/photo-${id}?w=${w||800}&q=70&auto=format&fit=crop`;
 
@@ -86,16 +90,24 @@ const ITIN=[
    {nm:"夜間：藥妝＋超商補給",hrs:"~22:00",img:IMG.food,big:true,kid:0,badge:"🛒 補給",q:"新大塚 ドラッグストア",
     notes:["首日僅執行夜間耗材與超商補給，不安排逛街。"]},
   ]},
- {d:"D2",date:"2026-08-20",dow:"四",title:"池袋戰區",hero:IMG.neon,
+ {d:"D2",date:"2026-08-20",dow:"四",title:"池袋大本營・水族館＋採購",hero:IMG.neon,
   pois:[
-   {nm:"寶可夢 Mega Tokyo & Pikachu Sweets",hrs:"10:00–20:00",img:IMG.sakura,big:true,kid:5,q:"ポケモンセンターメガトウキョー サンシャインシティ",
-    notes:["排上午優先，多多重點站。Pikachu Sweets 甜點需留意現場候位。"]},
-   {nm:"池袋 PARCO",hrs:"11:00–21:00",img:IMG.fashion,kid:2,tax:"B",q:"池袋PARCO",
-    notes:["RAGEBLUE／POTR。百貨 B 制退稅。"]},
-   {nm:"MINT 池袋 2F・棒球卡",hrs:"平日 12:00–20:00",img:IMG.neon,kid:4,q:"MINT 池袋",
-    notes:["<b>平日 12:00 才開門，不可排上午。</b>"]},
-   {nm:"Bic Camera 池袋本店",hrs:"10:00–22:00",img:IMG.shinjuku,big:true,kid:3,tax:"A",q:"ビックカメラ 池袋本店",
-    notes:["<b>體積最重排壓軸。今日是大型電器（水波爐／電子鍋）最後安全結帳點。</b>當場辦「空港配送」直寄 8/24 羽田 T3（需 3 天物流）。A 制現場扣 10%。"]},
+   {nm:"陽光水族館（太陽城頂樓）",hrs:"10:00 第一站",img:IMG.aquarium,big:true,kid:5,q:"サンシャイン水族館",
+    notes:["位於太陽城 World Import Mart 大樓頂樓，10:00 開門。<b>強烈建議當日第一站，趁人潮最少</b>帶多多看「天空企鵝」與海獅。停留約 1.5–2 小時。"]},
+   {nm:"寶可夢 Mega Tokyo & Pikachu Sweets",hrs:"12:00",img:IMG.sakura,big:true,kid:5,q:"ポケモンセンターメガトウキョー サンシャインシティ",
+    notes:["水族館下樓直接前往，同在太陽城內。Pikachu Sweets 留意現場候位。","<b>大人順路採購：</b>太陽城內把 niko and...、3COINS（買大提袋）、UNIQLO 一次買齊。"]},
+   {nm:"MINT 池袋 2F・棒球卡",hrs:"14:00",img:IMG.neon,kid:4,q:"MINT 池袋",
+    notes:["離開太陽城步行前往，2F 挑棒球球員卡。<b>平日 12:00 才開門</b>，14:00 前往剛好。"]},
+   {nm:"atmos 池袋店（挑鞋）",hrs:"15:00",img:IMG.fashion,kid:2,tax:"A",q:"atmos 池袋",
+    notes:["獨立路面店挑鞋。A 制現場扣 10%。"]},
+   {nm:"池袋 PARCO 本館",hrs:"15:00+",img:IMG.fashion,kid:2,tax:"B",q:"池袋PARCO",
+    notes:["1F POTR 買包、6F RAGEBLUE 買男裝。"]},
+   {nm:"P'PARCO 別館 8F・Murasaki Sports",hrs:"接續",img:IMG.fashion,kid:2,tax:"B",q:"P'PARCO 池袋",
+    notes:["與本館相連，走通道過去 8F 挑服飾配件。","<b>退稅防線：</b>PARCO 本館＋P'PARCO 消費可最後集中提著，一次到商場退稅櫃檯辦理（扣 1.55%），省下逐櫃結帳等待。"]},
+   {nm:"Bic Camera 池袋本店",hrs:"17:30 決戰",img:IMG.shinjuku,big:true,kid:3,tax:"A",q:"ビックカメラ 池袋本店",
+    notes:["集中採買電器。<b>結帳出示電子機票辦「空港配送」直寄 8/24 羽田 T3</b>（需 3 天物流，D2 為最後安全結帳點）。A 制現場扣 10%。"]},
+   {nm:"19:30 回新大塚卸貨",hrs:"19:30",img:IMG.resid,big:true,kid:0,badge:"🏨 卸貨",q:"新大塚駅",
+    notes:["搭丸之內線僅一站，提著剩餘戰利品回新大塚舅舅家卸貨。"]},
   ]},
  {d:"D3",date:"2026-08-21",dow:"五",title:"新宿 / 原宿戰區",hero:IMG.kimono,
   pois:[
@@ -160,39 +172,56 @@ const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"
 function stars(n){let s='';for(let i=1;i<=5;i++)s+=`<span class="${i<=n?'text-amber-400':'text-white/30'}">★</span>`;return `<span class="text-[13px] tracking-tight">${s}</span>`;}
 
 /* ===================== 行程渲染 ===================== */
+let SEL=0, WX=null, WXERR=false;
 function renderTrip(){
-  let h='';
-  ITIN.forEach((day,di)=>{
-    h+=`<section class="mb-7 fade">
-      <div class="relative h-36 rounded-2xl overflow-hidden mb-3 bg-slate-700">
-        <img src="${imgUrl(day.hero)}" loading="lazy" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"></div>
-        <div class="absolute left-3 bottom-3 text-white">
-          <span class="inline-block bg-amber-500 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1.5">${day.d}・${day.date.slice(5)}（${day.dow}）</span>
-          <div class="text-[19px] font-extrabold leading-tight drop-shadow">${esc(day.title)}</div>
-        </div>
-      </div>
-      <div id="wx-${di}" class="rounded-2xl bg-gradient-to-br from-sky-50 to-indigo-50 border border-sky-100 px-4 py-3 mb-3 text-[13px] text-slate-600 flex items-center gap-3">
-        <span class="text-2xl">⛅</span><span>天氣載入中…</span>
-      </div>
-      <div class="grid grid-cols-2 gap-3">`;
-    day.pois.forEach((p,pi)=>{
-      const span=p.big?'col-span-2 h-44':'h-40';
-      h+=`<button onclick="openSheet(${di},${pi})" class="relative ${span} rounded-2xl overflow-hidden text-left bg-slate-700 active:scale-[.98] transition-transform">
-        <img src="${imgUrl(p.img)}" loading="lazy" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/5"></div>
-        <span onclick="event.stopPropagation();window.open('${mapUrl(p.q)}','_blank')" class="absolute top-2 right-2 bg-white/90 text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur">📍 地圖</span>
-        <div class="absolute inset-x-0 bottom-0 p-3 text-white">
-          <div class="font-extrabold leading-tight ${p.big?'text-[16px]':'text-[14px]'} drop-shadow">${esc(p.nm)}</div>
-          <div class="text-[11.5px] opacity-90 mt-0.5">🕘 ${esc(p.hrs)}</div>
-          <div class="mt-1">${p.kid>0?stars(p.kid):`<span class="inline-block bg-white/20 backdrop-blur text-[11px] font-bold px-2 py-0.5 rounded-full">${esc(p.badge||'')}</span>`}</div>
-        </div>
-      </button>`;
-    });
-    h+=`</div></section>`;
-  });
-  $('#p-trip').innerHTML=h;
+  const today=new Date().toISOString().slice(0,10);
+  const ti=ITIN.findIndex(d=>d.date===today); SEL=ti>=0?ti:0;
+  const chips=ITIN.map((d,i)=>`<button onclick="showDay(${i})" data-chip="${i}" class="flex-none w-[64px] py-2 rounded-2xl text-center bg-white shadow-sm text-slate-700 active:scale-95 transition-transform">
+      <div class="text-[14px] font-extrabold leading-none">${d.d}</div>
+      <div class="text-[10.5px] opacity-60 mt-1 leading-none">${d.date.slice(5)}</div>
+      <div class="text-[10.5px] opacity-50 mt-0.5 leading-none">（${d.dow}）</div></button>`).join('');
+  $('#p-trip').innerHTML=`
+    <div class="flex gap-2 overflow-x-auto pb-2 mb-2 -mx-4 px-4">${chips}</div>
+    <div id="dayView"></div>`;
+  showDay(SEL);
   loadWeather();
+}
+function showDay(di){
+  SEL=di;
+  document.querySelectorAll('[data-chip]').forEach(b=>{
+    const on=+b.dataset.chip===di;
+    b.classList.toggle('bg-amber-500',on);b.classList.toggle('text-white',on);
+    b.classList.toggle('bg-white',!on);b.classList.toggle('text-slate-700',!on);
+    if(on)b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+  });
+  const day=ITIN[di];
+  let h=`<section class="fade">
+    <div class="relative h-44 rounded-2xl overflow-hidden mb-3 bg-slate-700">
+      <img src="${imgUrl(day.hero)}" loading="lazy" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"></div>
+      <div class="absolute left-3 bottom-3 text-white">
+        <span class="inline-block bg-amber-500 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1.5">${day.d}・${day.date.slice(5)}（${day.dow}）</span>
+        <div class="text-[20px] font-extrabold leading-tight drop-shadow">${esc(day.title)}</div>
+      </div>
+    </div>
+    <div id="wxbox" class="rounded-2xl bg-gradient-to-br from-sky-50 to-indigo-50 border border-sky-100 px-4 py-3 mb-3 text-[13px] text-slate-600 flex items-center gap-3"><span class="text-2xl">⛅</span><span>天氣載入中…</span></div>
+    <div class="grid grid-cols-2 gap-3">`;
+  day.pois.forEach((p,pi)=>{
+    const span=p.big?'col-span-2 h-44':'h-40';
+    h+=`<button onclick="openSheet(${di},${pi})" class="relative ${span} rounded-2xl overflow-hidden text-left bg-slate-700 active:scale-[.98] transition-transform">
+      <img src="${imgUrl(p.img)}" loading="lazy" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/5"></div>
+      <span onclick="event.stopPropagation();window.open('${mapUrl(p.q)}','_blank')" class="absolute top-2 right-2 bg-white/90 text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur">📍 地圖</span>
+      <div class="absolute inset-x-0 bottom-0 p-3 text-white">
+        <div class="font-extrabold leading-tight ${p.big?'text-[16px]':'text-[14px]'} drop-shadow">${esc(p.nm)}</div>
+        <div class="text-[11.5px] opacity-90 mt-0.5">🕘 ${esc(p.hrs)}</div>
+        <div class="mt-1">${p.kid>0?stars(p.kid):`<span class="inline-block bg-white/20 backdrop-blur text-[11px] font-bold px-2 py-0.5 rounded-full">${esc(p.badge||'')}</span>`}</div>
+      </div>
+    </button>`;
+  });
+  h+=`</div></section>`;
+  $('#dayView').innerHTML=h;
+  renderDayWeather();
 }
 
 /* ===================== 詳情 bottom sheet ===================== */
@@ -229,22 +258,23 @@ async function loadWeather(){
   try{
     const url='https://api.open-meteo.com/v1/forecast?latitude=35.71&longitude=139.71&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,precipitation_probability_max,precipitation_sum&timezone=Asia%2FTokyo&forecast_days=16';
     const j=await(await fetch(url)).json();
-    const m={};(j.daily.time||[]).forEach((t,i)=>{m[t]={c:j.daily.weather_code[i],hi:j.daily.temperature_2m_max[i],lo:j.daily.temperature_2m_min[i],feel:j.daily.apparent_temperature_max[i],pop:j.daily.precipitation_probability_max[i],ps:j.daily.precipitation_sum[i]};});
-    ITIN.forEach((day,di)=>{
-      const el=$('#wx-'+di);if(!el)return;const w=m[day.date];
-      if(!w){el.innerHTML=`<span class="text-2xl">📅</span><span>預報尚未開放（出發前約 16 天提供當日預報）</span>`;return;}
-      const wc=wxCode(w.c);
-      const um=umbrella(w.pop,w.ps);
-      el.innerHTML=`<span class="text-3xl">${wc.e}</span>
-        <div class="leading-tight">
-          <div><b class="text-[16px] text-slate-800">${Math.round(w.lo)}°–${Math.round(w.hi)}°</b> <span class="text-slate-500">${wc.d}</span></div>
-          <div class="text-[12px] text-slate-500 mt-0.5">體感最高 ${Math.round(w.feel)}°・降雨 ${w.pop??'–'}%</div>
-        </div>
-        <span class="ml-auto text-[12px] font-bold px-2.5 py-1 rounded-full ${um.cls}">${um.t}</span>`;
-    });
-  }catch(e){
-    ITIN.forEach((d,di)=>{const el=$('#wx-'+di);if(el)el.innerHTML=`<span class="text-2xl">📡</span><span>天氣載入失敗，請確認網路</span>`;});
-  }
+    WX={};(j.daily.time||[]).forEach((t,i)=>{WX[t]={c:j.daily.weather_code[i],hi:j.daily.temperature_2m_max[i],lo:j.daily.temperature_2m_min[i],feel:j.daily.apparent_temperature_max[i],pop:j.daily.precipitation_probability_max[i],ps:j.daily.precipitation_sum[i]};});
+    WXERR=false;renderDayWeather();
+  }catch(e){WXERR=true;renderDayWeather();}
+}
+function renderDayWeather(){
+  const box=$('#wxbox');if(!box)return;
+  if(WXERR){box.innerHTML=`<span class="text-2xl">📡</span><span>天氣載入失敗，請確認網路</span>`;return;}
+  if(!WX)return;
+  const w=WX[ITIN[SEL].date];
+  if(!w){box.innerHTML=`<span class="text-2xl">📅</span><span>預報尚未開放（出發前約 16 天提供當日預報）</span>`;return;}
+  const wc=wxCode(w.c),um=umbrella(w.pop,w.ps);
+  box.innerHTML=`<span class="text-3xl">${wc.e}</span>
+    <div class="leading-tight">
+      <div><b class="text-[16px] text-slate-800">${Math.round(w.lo)}°–${Math.round(w.hi)}°</b> <span class="text-slate-500">${wc.d}</span></div>
+      <div class="text-[12px] text-slate-500 mt-0.5">體感最高 ${Math.round(w.feel)}°・降雨 ${w.pop??'–'}%</div>
+    </div>
+    <span class="ml-auto text-[12px] font-bold px-2.5 py-1 rounded-full ${um.cls}">${um.t}</span>`;
 }
 function umbrella(pop,ps){
   if((pop>=50)||(ps>=2)) return {t:'☔ 建議帶傘',cls:'bg-blue-600 text-white'};
