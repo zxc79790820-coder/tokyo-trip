@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#f5a623">
+<title>東京親子旅遊 2026.08</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --ink:#1f2630; --sub:#6b7480;
+    --line:#e7eaef; --accent:#f5a623; --accent2:#2d7ff9; --green:#27ae60;
+    --red:#e0533d; --warn:#fff7e6; --warnline:#f5a623; --pink:#ffe0ec;
+    --shadow:0 2px 10px rgba(30,40,60,.06);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Hiragino Sans","Microsoft JhengHei",sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.55;
+    padding-bottom:84px; -webkit-text-size-adjust:100%;
+  }
+  header{
+    background:linear-gradient(135deg,#f5a623,#f7b94e);
+    color:#fff; padding:18px 18px 16px; position:sticky; top:0; z-index:50;
+    box-shadow:0 2px 12px rgba(245,166,35,.25);
+  }
+  header h1{margin:0;font-size:18px;font-weight:800;letter-spacing:.5px}
+  header .sub{font-size:12.5px;opacity:.95;margin-top:3px}
+  .wrap{max-width:560px;margin:0 auto;padding:14px}
+  /* tabs */
+  nav.tabs{
+    position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;
+    border-top:1px solid var(--line);z-index:60;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  nav.tabs button{
+    flex:1;border:0;background:none;padding:9px 0 7px;font-size:11px;color:var(--sub);
+    display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font-family:inherit;
+  }
+  nav.tabs button .ic{font-size:20px;line-height:1}
+  nav.tabs button.on{color:var(--accent);font-weight:700}
+  .page{display:none;animation:fade .2s}
+  .page.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+  /* card */
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin-bottom:12px}
+  .card h2{margin:0 0 2px;font-size:15px}
+  .daychip{display:inline-block;background:#fff3df;color:#c87f12;font-weight:800;font-size:12px;
+    padding:3px 10px;border-radius:20px;margin-bottom:8px}
+  .poi{border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin-top:10px;position:relative}
+  .poi .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .poi .nm{font-weight:700;font-size:14.5px}
+  .poi .hrs{font-size:12px;color:var(--sub);margin-top:2px}
+  .mapbtn{flex:none;background:var(--accent2);color:#fff;text-decoration:none;font-size:12px;
+    font-weight:700;padding:6px 11px;border-radius:9px;white-space:nowrap}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:6px;margin:6px 5px 0 0}
+  .tag.a{background:#e9f7ef;color:#1e8b4d}
+  .tag.b{background:#eaf1ff;color:#2059c4}
+  .tag.warn{background:#fdecea;color:#c0392b}
+  .note{font-size:12.5px;color:#7a4a00;background:var(--warn);border-left:3px solid var(--warnline);
+    padding:7px 9px;border-radius:8px;margin-top:8px}
+  .note b{color:#a35a00}
+  /* weather */
+  .wx{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#eaf3ff,#f3f8ff);
+    border-radius:12px;padding:9px 12px;margin-top:8px}
+  .wx .emoji{font-size:26px}
+  .wx .t{font-size:13px}
+  .wx .t b{font-size:15px}
+  .wx small{color:var(--sub)}
+  /* expense */
+  .field{margin-bottom:10px}
+  .field label{display:block;font-size:12px;color:var(--sub);margin-bottom:4px;font-weight:600}
+  input,select,textarea{width:100%;font-family:inherit;font-size:15px;padding:10px 11px;
+    border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  textarea{min-height:90px;resize:vertical}
+  .row{display:flex;gap:10px}
+  .row>*{flex:1}
+  .btn{display:block;width:100%;border:0;background:var(--accent);color:#fff;font-weight:800;
+    font-size:15px;padding:12px;border-radius:12px;cursor:pointer;font-family:inherit;margin-top:4px}
+  .btn.sec{background:#eef1f5;color:var(--ink)}
+  .btn.blue{background:var(--accent2)}
+  .btn.small{width:auto;padding:8px 14px;font-size:13px;display:inline-block}
+  .sumbar{display:flex;gap:10px;margin-bottom:12px}
+  .sumbar .b{flex:1;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:12px;text-align:center}
+  .sumbar .b .n{font-size:20px;font-weight:800}
+  .sumbar .b .l{font-size:11px;color:var(--sub);margin-top:2px}
+  .exp{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .exp:last-child{border-bottom:0}
+  .exp .l .nm{font-weight:700;font-size:14px}
+  .exp .l .meta{font-size:11.5px;color:var(--sub);margin-top:2px}
+  .exp .r{text-align:right;white-space:nowrap}
+  .exp .r .jpy{font-weight:800;font-size:14px}
+  .exp .r .twd{font-size:11px;color:var(--sub)}
+  .exp .x{color:var(--red);font-size:11px;cursor:pointer;margin-top:3px}
+  .catpill{font-size:10px;background:#f0f2f5;color:var(--sub);padding:1px 7px;border-radius:6px;margin-right:5px}
+  .empty{text-align:center;color:var(--sub);font-size:13px;padding:24px 0}
+  /* tax tracker */
+  .tax{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:9px}
+  .tax .hd{display:flex;justify-content:space-between;font-size:13px;font-weight:700}
+  .bar{height:7px;background:#eef1f5;border-radius:5px;margin-top:7px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--green);border-radius:5px;transition:.3s}
+  .bar.full i{background:var(--accent)}
+  .taxmsg{font-size:11.5px;color:var(--sub);margin-top:5px}
+  .taxmsg.ok{color:var(--green);font-weight:700}
+  details{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:4px 14px;margin-bottom:10px}
+  details summary{font-weight:700;font-size:14px;padding:10px 0;cursor:pointer;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"▸ ";color:var(--accent)}
+  details[open] summary::before{content:"▾ "}
+  details .body{padding:0 0 12px;font-size:13px;color:#444}
+  .alert{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:13px 14px;margin-bottom:11px;
+    border-left:4px solid var(--red)}
+  .alert.amber{border-left-color:var(--accent)}
+  .alert.blue{border-left-color:var(--accent2)}
+  .alert .t{font-weight:800;font-size:14px;margin-bottom:3px}
+  .alert .d{font-size:12.5px;color:#555}
+  .hint{font-size:12px;color:var(--sub);background:#f0f4ff;border-radius:10px;padding:10px;margin-top:8px}
+  code.fmt{display:block;background:#1f2630;color:#a9e34b;font-size:12px;padding:10px;border-radius:9px;
+    white-space:pre-wrap;word-break:break-all;margin-top:6px;font-family:ui-monospace,Menlo,monospace}
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#1f2630;color:#fff;
+    font-size:13px;padding:10px 18px;border-radius:24px;opacity:0;pointer-events:none;transition:.3s;z-index:99}
+  .toast.show{opacity:.95}
+</style>
+</head>
+<body>
+<header>
+  <h1>🗼 東京親子旅遊 2026.08</h1>
+  <div class="sub">8/19(三)–8/24(一)・6天5夜・基地：新大塚</div>
+</header>
+
+<div class="wrap">
+  <!-- ===== 行程 ===== -->
+  <section id="p-trip" class="page on"></section>
+
+  <!-- ===== 記帳 ===== -->
+  <section id="p-money" class="page">
+    <div class="sumbar">
+      <div class="b"><div class="n" id="sumJpy">¥0</div><div class="l">總支出(日幣)</div></div>
+      <div class="b"><div class="n" id="sumTwd">NT$0</div><div class="l">約合台幣</div></div>
+    </div>
+
+    <div class="card">
+      <h2>✍️ 手動記帳</h2>
+      <div class="row">
+        <div class="field"><label>日期</label><input type="date" id="mDate"></div>
+        <div class="field"><label>金額(日幣)</label><input type="number" id="mAmt" inputmode="numeric" placeholder="0"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>類別</label>
+          <select id="mCat">
+            <option>餐飲</option><option>交通</option><option>購物</option><option>電器</option>
+            <option>藥妝</option><option>門票</option><option>住宿</option><option>其他</option>
+          </select>
+        </div>
+        <div class="field"><label>退稅</label>
+          <select id="mTax"><option value="無">無</option><option value="A">A制(現場扣)</option><option value="B">B制(百貨)</option></select>
+        </div>
+      </div>
+      <div class="field"><label>店家</label><input type="text" id="mStore" placeholder="例：Bic Camera 池袋本店"></div>
+      <div class="field"><label>備註</label><input type="text" id="mNote" placeholder="例：水波爐 / 寶可夢卡包"></div>
+      <button class="btn" onclick="addManual()">＋ 新增一筆</button>
+    </div>
+
+    <details>
+      <summary>📋 貼上匯入（Gemini 拍照分析用）</summary>
+      <div class="body">
+        <div class="hint">把收據／信用卡明細拍照丟給 Gemini，用下方指令請它輸出固定格式，再整段貼進來一鍵匯入。每行一筆，格式：<br><b>日期,店家,類別,金額,退稅,備註</b></div>
+        <code class="fmt" id="geminiPrompt"></code>
+        <button class="btn sec small" onclick="copyPrompt()" style="margin-top:8px">複製 Gemini 指令</button>
+        <textarea id="bulkText" placeholder="2026-08-20,Bic Camera 池袋本店,電器,45800,A,水波爐&#10;2026-08-20,ポケモンセンター,購物,3200,無,卡包x4"></textarea>
+        <button class="btn blue" onclick="importBulk()">匯入以上資料</button>
+      </div>
+    </details>
+
+    <div class="card">
+      <h2>🧾 消費明細</h2>
+      <div id="expList"><div class="empty">尚無記錄</div></div>
+    </div>
+
+    <div class="card">
+      <h2>📊 分類統計</h2>
+      <div id="catStat"><div class="empty">尚無記錄</div></div>
+    </div>
+  </section>
+
+  <!-- ===== 退稅 ===== -->
+  <section id="p-tax" class="page">
+    <div class="alert blue">
+      <div class="t">退稅雙軌制・單店單日滿 ¥5,000（不含稅）</div>
+      <div class="d">下方依「店家＋日期」累計你已記的金額，逼近門檻會提示。註：門檻以<b>不含稅</b>計，含稅金額約需 ¥5,500 以上才穩過。</div>
+    </div>
+    <div id="taxTrack"><div class="empty">記帳後會自動在這裡追蹤各店退稅門檻</div></div>
+    <div class="card">
+      <h2>制度速查</h2>
+      <p style="font-size:13px;margin:6px 0"><b style="color:#1e8b4d">A 制（現場扣10%）</b>：atmos、BILLY'S、NANGA、FREAK'S STORE、Bic Camera、松本清等。結帳出示護照付免稅價，無手續費。</p>
+      <p style="font-size:13px;margin:6px 0"><b style="color:#2059c4">B 制（百貨統一退稅）</b>：新宿伊勢丹、京王百貨、池袋/澀谷 PARCO、太陽城。專櫃含稅結帳，當日提商品到退稅中心，扣 1.55% 手續費，實退 8.45%。</p>
+      <div class="note"><b>核心防線：</b>護照姓名與實體信用卡持卡人姓名必須完全一致，用他人卡會被拒退稅。</div>
+      <div class="note"><b>拆封限制：</b>消耗品（藥品、化妝水、食品）會封入免稅袋，離日海關前禁止拆封；一般物品（衣服、電器、卡牌）可在日本拆用。</div>
+    </div>
+  </section>
+
+  <!-- ===== 防線 ===== -->
+  <section id="p-alert" class="page"></section>
+
+  <!-- ===== 設定 ===== -->
+  <section id="p-set" class="page">
+    <div class="card">
+      <h2>💱 匯率設定</h2>
+      <div class="field"><label>1 日圓 = ? 台幣</label><input type="number" id="rate" step="0.001" inputmode="decimal"></div>
+      <button class="btn" onclick="saveRate()">儲存匯率</button>
+      <div class="hint">記帳的台幣換算都用這個固定匯率，現場斷網也能算。建議出發前查一次更新。</div>
+    </div>
+    <div class="card">
+      <h2>💾 資料備份</h2>
+      <div class="hint">資料存在本機瀏覽器，清除快取會消失。建議每晚匯出備份一次。</div>
+      <button class="btn sec" onclick="exportData()" style="margin-top:10px">匯出備份（下載檔案）</button>
+      <div class="field" style="margin-top:12px"><label>還原：貼上備份內容</label><textarea id="restoreBox" placeholder="貼上之前匯出的 JSON 內容"></textarea></div>
+      <button class="btn sec" onclick="importData()">從上方內容還原</button>
+      <button class="btn sec" onclick="clearAll()" style="margin-top:10px;color:#c0392b">清空所有記帳資料</button>
+    </div>
+    <div class="card">
+      <h2>ℹ️ 關於</h2>
+      <p style="font-size:13px;color:#555;margin:4px 0">航班：去 IT202 8/19 桃園14:25→成田18:35(T2)；回 BR191 8/24 羽田12:40(T3)→松山15:05。</p>
+      <p style="font-size:13px;color:#555;margin:4px 0">天氣資料：Open-Meteo（出發前約16天起顯示真實預報）。</p>
+    </div>
+  </section>
+</div>
+
+<nav class="tabs">
+  <button data-t="trip" class="on"><span class="ic">🗺️</span>行程</button>
+  <button data-t="money"><span class="ic">💴</span>記帳</button>
+  <button data-t="tax"><span class="ic">🏷️</span>退稅</button>
+  <button data-t="alert"><span class="ic">🚨</span>防線</button>
+  <button data-t="set"><span class="ic">⚙️</span>設定</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ 資料 ============ */
+const ITIN = [
+  { d:"D1", date:"2026-08-19", dow:"三", title:"抵達日・夜間補給", lat:35.731, lon:139.728,
+    pois:[
+      {nm:"成田機場 第2航廈 (NRT T2)", hrs:"18:35 落地", q:"成田空港 第2ターミナル",
+       notes:["出關後搭京成 Skyliner 轉 JR 山手線，抵新大塚預估已過 21:30。"]},
+      {nm:"日暮里站 綠色窗口（辦兒童 Suica）", hrs:"轉車時辦理", q:"日暮里駅 みどりの窓口",
+       notes:["<b>持多多護照</b>辦實體「兒童版 Suica」，所有大眾運輸資費減半。大人用 Apple Pay/Google 數位 Suica。"]},
+      {nm:"エクセル新大塚（住宿基地）", hrs:"Check-in", q:"エクセル新大塚",
+       notes:["丸之內線新大塚站／JR 山手線大塚站。"]},
+      {nm:"夜間：藥妝＋超商補給", hrs:"~22:00", q:"新大塚 ドラッグストア",
+       notes:["首日僅執行夜間耗材與超商補給，不安排逛街。"]},
+    ]},
+  { d:"D2", date:"2026-08-20", dow:"四", title:"池袋戰區", lat:35.729, lon:139.710,
+    pois:[
+      {nm:"寶可夢 Mega Tokyo & Pikachu Sweets", hrs:"10:00–20:00", q:"ポケモンセンターメガトウキョー サンシャインシティ", tax:"",
+       notes:["排上午優先，孩童重點站。"]},
+      {nm:"池袋 PARCO（RAGEBLUE / POTR）", hrs:"11:00–21:00", q:"池袋PARCO", tax:"B"},
+      {nm:"MINT 池袋店 2F（棒球卡專賣）", hrs:"平日 12:00–20:00", q:"MINT 池袋", tax:"",
+       notes:["<b>平日 12:00 才開門，不可排上午。</b>"]},
+      {nm:"Bic Camera 池袋本店", hrs:"10:00–22:00", q:"ビックカメラ 池袋本店", tax:"A",
+       notes:["<b>體積最重排壓軸。今日是大型電器（水波爐/電子鍋）最後安全結帳點。</b>當場辦「空港配送」直寄 8/24 羽田 T3（需 3 天物流）。"]},
+    ]},
+  { d:"D3", date:"2026-08-21", dow:"五", title:"新宿 / 原宿戰區", lat:35.690, lon:139.700,
+    pois:[
+      {nm:"新宿伊勢丹", hrs:"10:00–20:00", q:"伊勢丹 新宿店", tax:"B",
+       notes:["<b>抵達後先到 6F 免稅櫃檯辦 Guest Card（憑護照正本）。</b>指定專櫃滿 ¥3,000 打 95 折，須先出示卡結帳，之後才退 8.45%。順序顛倒無法補折。"]},
+      {nm:"京王百貨新宿店 7F（BREEZE 童裝）", hrs:"10:00–20:00", q:"京王百貨店 新宿店", tax:"B"},
+      {nm:"NANGA SHOP 原宿", hrs:"11:00–20:00", q:"NANGA SHOP 原宿", tax:"A"},
+    ]},
+  { d:"D4", date:"2026-08-22", dow:"六", title:"澀谷戰區 + 麻布十番納涼祭", lat:35.661, lon:139.700,
+    pois:[
+      {nm:"澀谷 PARCO（任天堂/寶可夢/MINT B1）", hrs:"11:00–21:00", q:"渋谷PARCO", tax:"B"},
+      {nm:"FREAK'S STORE 澀谷", hrs:"假日 11:00–20:00", q:"FREAK'S STORE 渋谷", tax:"A"},
+      {nm:"麻布十番納涼祭", hrs:"17:30 前抵達", q:"麻布十番駅", tax:"",
+       notes:["<b>17:30 前換好甚平抵達麻布十番站</b>，人潮極度擁擠。現場無垃圾桶，<b>自備塑膠袋＋濕紙巾</b>。"]},
+    ]},
+  { d:"D5", date:"2026-08-23", dow:"日", title:"中野・むし社（昆蟲考察）", lat:35.706, lon:139.665,
+    pois:[
+      {nm:"むし社 中野店", hrs:"觀賞考察", q:"むし社 中野", tax:"",
+       notes:["<b>活體昆蟲嚴禁購買／帶入境（台灣防檢署規定）。</b>定位純觀賞與資材考察，僅買周邊、乾燥標本或日本國產昆蟲果凍。"]},
+    ]},
+  { d:"D6", date:"2026-08-24", dow:"一", title:"離境日", lat:35.549, lon:139.779,
+    pois:[
+      {nm:"⏰ 09:20 新大塚退房出發（死線）", hrs:"09:20", q:"エクセル新大塚",
+       notes:["<b>當天無任何逛街餘裕。</b>"]},
+      {nm:"羽田機場 T3・JAL ABC 櫃檯（提貨）", hrs:"10:10 前報到", q:"羽田空港 第3ターミナル JAL ABC",
+       notes:["先到 JAL ABC 提 Bic Camera 空港配送品 → 再推至長榮櫃檯託運。"]},
+      {nm:"長榮 BR191 羽田 → 松山", hrs:"12:40 起飛", q:"羽田空港 第3ターミナル 出発",
+       notes:["10:10 前必須完成國際線報到。"]},
+    ]},
+];
+
+const ALERTS = [
+  {lv:"alert", t:"D6 09:20 退房死線", d:"8/24 早上 09:20 必須從新大塚退房出發，12:40 起飛、10:10 前報到，當天零逛街容餘。"},
+  {lv:"amber", t:"Bic Camera 空港配送：D2(8/20) 最後結帳點", d:"大型電器當天於池袋本店購入並辦空港配送，直寄 8/24 羽田 T3（需 3 天物流）。D6 抵羽田先到 JAL ABC 提貨，再到長榮託運。"},
+  {lv:"blue", t:"兒童版 Suica（D1 日暮里辦）", d:"持多多護照到 JR 東日本綠色窗口辦實體兒童版 Suica，資費減半；大人用數位 Suica。"},
+  {lv:"amber", t:"伊勢丹 Guest Card 順序（D3）", d:"先到 6F 免稅櫃檯憑護照辦卡 → 滿 ¥3,000 打 95 折結帳 → 再退 8.45%。順序顛倒無法補折。"},
+  {lv:"alert", t:"退稅同名防線", d:"護照姓名與實體信用卡持卡人姓名必須完全一致，否則拒退稅。單店單日滿 ¥5,000 不含稅。"},
+  {lv:"amber", t:"免稅消耗品禁拆封", d:"藥品、化妝水、食品等消耗品封入免稅袋，離日海關前絕對禁止拆封。"},
+  {lv:"alert", t:"昆蟲活體禁帶入境", d:"獨角仙、鍬形蟲等活體一律禁止購買帶回，中野むし社僅觀賞與買周邊/標本/果凍。"},
+  {lv:"amber", t:"麻布十番納涼祭（8/22）", d:"17:30 前換甚平抵達麻布十番站；自備塑膠袋收垃圾＋濕紙巾。"},
+  {lv:"blue", t:"MINT 池袋平日 12:00 才開", d:"棒球卡專賣 2F 平日中午才開門，勿排上午，避免空跑。"},
+];
+
+const GEMINI_PROMPT = "請分析這張收據／信用卡明細的照片，把每一筆消費整理成以下格式，每行一筆，不要加任何說明文字：\n日期,店家,類別,金額,退稅,備註\n規則：日期用 YYYY-MM-DD；金額只填日圓數字（不要逗號或¥）；類別從〔餐飲/交通/購物/電器/藥妝/門票/住宿/其他〕選一個；退稅填〔無/A/B〕無法判斷就填無；備註簡短。";
+
+/* ============ 狀態 ============ */
+let RATE = parseFloat(localStorage.getItem('jpyRate')) || 0.21;
+let EXP = JSON.parse(localStorage.getItem('expenses')||'[]');
+
+/* ============ 工具 ============ */
+const $=s=>document.querySelector(s);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
+function mapUrl(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);}
+function yen(n){return '¥'+Number(n).toLocaleString();}
+function twd(n){return 'NT$'+Math.round(n*RATE).toLocaleString();}
+function save(){localStorage.setItem('expenses',JSON.stringify(EXP));}
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* ============ 行程渲染 ============ */
+function renderTrip(){
+  let h='';
+  ITIN.forEach((day,di)=>{
+    h+=`<div class="card">
+      <span class="daychip">${day.d}・${day.date.slice(5)}（${day.dow}）</span>
+      <h2>${esc(day.title)}</h2>
+      <div class="wx" id="wx-${di}"><div class="emoji">⛅</div><div class="t"><small>天氣載入中…</small></div></div>`;
+    day.pois.forEach(p=>{
+      h+=`<div class="poi"><div class="top">
+        <div><div class="nm">${esc(p.nm)}</div>${p.hrs?`<div class="hrs">🕘 ${esc(p.hrs)}</div>`:''}</div>
+        <a class="mapbtn" href="${mapUrl(p.q)}" target="_blank" rel="noopener">📍 地圖</a></div>`;
+      if(p.tax==='A') h+=`<span class="tag a">A制 現場扣10%</span>`;
+      if(p.tax==='B') h+=`<span class="tag b">B制 百貨退稅</span>`;
+      (p.notes||[]).forEach(n=>h+=`<div class="note">${n}</div>`);
+      h+=`</div>`;
+    });
+    h+=`</div>`;
+  });
+  $('#p-trip').innerHTML=h;
+  loadWeather();
+}
+
+/* ============ 天氣 ============ */
+async function loadWeather(){
+  try{
+    const lat=35.71,lon=139.71; // 東京區域代表點
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=16`;
+    const r=await fetch(url); const j=await r.json();
+    const map={};
+    (j.daily.time||[]).forEach((t,i)=>{map[t]={c:j.daily.weather_code[i],hi:j.daily.temperature_2m_max[i],lo:j.daily.temperature_2m_min[i],pop:j.daily.precipitation_probability_max[i]};});
+    ITIN.forEach((day,di)=>{
+      const el=$('#wx-'+di); if(!el) return;
+      const w=map[day.date];
+      if(w){
+        const wc=wxCode(w.c);
+        el.innerHTML=`<div class="emoji">${wc.e}</div><div class="t"><b>${Math.round(w.lo)}°–${Math.round(w.hi)}°</b> ${wc.d}　<small>降雨 ${w.pop??'–'}%</small></div>`;
+      }else{
+        el.innerHTML=`<div class="emoji">📅</div><div class="t"><small>預報尚未開放（出發前約 16 天提供當日預報）</small></div>`;
+      }
+    });
+  }catch(e){
+    ITIN.forEach((d,di)=>{const el=$('#wx-'+di);if(el)el.innerHTML='<div class="emoji">📡</div><div class="t"><small>天氣載入失敗，請確認網路</small></div>';});
+  }
+}
+function wxCode(c){
+  if(c===0)return{e:'☀️',d:'晴'};
+  if([1,2,3].includes(c))return{e:'⛅',d:'多雲'};
+  if([45,48].includes(c))return{e:'🌫️',d:'霧'};
+  if([51,53,55,56,57].includes(c))return{e:'🌦️',d:'毛毛雨'};
+  if([61,63,65,66,67,80,81,82].includes(c))return{e:'🌧️',d:'下雨'};
+  if([71,73,75,77,85,86].includes(c))return{e:'❄️',d:'雪'};
+  if([95,96,99].includes(c))return{e:'⛈️',d:'雷雨'};
+  return{e:'⛅',d:'多雲'};
+}
+
+/* ============ 記帳 ============ */
+function addManual(){
+  const amt=parseFloat($('#mAmt').value);
+  if(!amt||amt<=0){toast('請輸入金額');return;}
+  EXP.push({date:$('#mDate').value||new Date().toISOString().slice(0,10),
+    store:$('#mStore').value.trim()||'未填店家',cat:$('#mCat').value,
+    amt:amt,tax:$('#mTax').value,note:$('#mNote').value.trim()});
+  save();$('#mAmt').value='';$('#mStore').value='';$('#mNote').value='';
+  renderMoney();toast('已新增一筆');
+}
+function importBulk(){
+  const raw=$('#bulkText').value.trim(); if(!raw){toast('請先貼上資料');return;}
+  let cnt=0;
+  raw.split(/\r?\n/).forEach(line=>{
+    line=line.trim(); if(!line||line.startsWith('日期'))return;
+    const p=line.split(',').map(s=>s.trim());
+    if(p.length<4)return;
+    const amt=parseFloat((p[3]||'').replace(/[^\d.]/g,''));
+    if(!amt)return;
+    EXP.push({date:p[0]||new Date().toISOString().slice(0,10),store:p[1]||'未填店家',
+      cat:p[2]||'其他',amt:amt,tax:(p[4]||'無'),note:p[5]||''});
+    cnt++;
+  });
+  save();$('#bulkText').value='';renderMoney();toast('已匯入 '+cnt+' 筆');
+}
+function delExp(i){EXP.splice(i,1);save();renderMoney();}
+function renderMoney(){
+  let total=EXP.reduce((s,e)=>s+e.amt,0);
+  $('#sumJpy').textContent=yen(total);
+  $('#sumTwd').textContent=twd(total);
+  // list
+  if(!EXP.length){$('#expList').innerHTML='<div class="empty">尚無記錄</div>';}
+  else{
+    const order=EXP.map((e,i)=>({e,i})).sort((a,b)=>(b.e.date||'').localeCompare(a.e.date||''));
+    $('#expList').innerHTML=order.map(({e,i})=>`<div class="exp">
+      <div class="l"><div class="nm">${esc(e.store)}</div>
+        <div class="meta"><span class="catpill">${esc(e.cat)}</span>${e.date}${e.tax&&e.tax!=='無'?' ・退稅'+e.tax:''}${e.note?' ・'+esc(e.note):''}</div></div>
+      <div class="r"><div class="jpy">${yen(e.amt)}</div><div class="twd">${twd(e.amt)}</div>
+        <div class="x" onclick="delExp(${i})">刪除</div></div></div>`).join('');
+  }
+  // category
+  const cat={};EXP.forEach(e=>cat[e.cat]=(cat[e.cat]||0)+e.amt);
+  const keys=Object.keys(cat).sort((a,b)=>cat[b]-cat[a]);
+  $('#catStat').innerHTML=keys.length?keys.map(k=>{
+    const pct=total?Math.round(cat[k]/total*100):0;
+    return `<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:13px">
+      <span><span class="catpill">${esc(k)}</span></span><b>${yen(cat[k])} <small style="color:#8a93a0">(${pct}%)</small></b></div>
+      <div class="bar"><i style="width:${pct}%"></i></div></div>`;
+  }).join(''):'<div class="empty">尚無記錄</div>';
+  renderTax();
+}
+
+/* ============ 退稅追蹤 ============ */
+function renderTax(){
+  const TH=5000;
+  const g={};
+  EXP.forEach(e=>{
+    if(!e.tax||e.tax==='無')return;
+    const key=e.store+'｜'+e.date;
+    g[key]=g[key]||{store:e.store,date:e.date,tax:e.tax,sum:0};
+    g[key].sum+=e.amt;
+  });
+  const arr=Object.values(g).sort((a,b)=>b.date.localeCompare(a.date)||b.sum-a.sum);
+  if(!arr.length){$('#taxTrack').innerHTML='<div class="empty">記帳時把「退稅」選 A 或 B，這裡就會自動追蹤門檻</div>';return;}
+  $('#taxTrack').innerHTML=arr.map(x=>{
+    const pct=Math.min(100,Math.round(x.sum/TH*100));
+    const full=x.sum>=TH;
+    const diff=TH-x.sum;
+    let msg = full
+      ? `✅ 已達退稅門檻（${x.tax}制）${x.sum>=5500?'，含稅亦穩過':'，注意：門檻為不含稅，含稅約需 ¥5,500'}`
+      : `再消費 <b>${yen(diff)}</b> 可達 ¥5,000 門檻（${x.tax}制）`;
+    return `<div class="card" style="margin-bottom:10px"><div class="tax">
+      <div class="hd"><span>${esc(x.store)}</span><span>${yen(x.sum)}</span></div>
+      <div style="font-size:11px;color:#8a93a0">${x.date}</div>
+      <div class="bar ${full?'full':''}"><i style="width:${pct}%"></i></div>
+      <div class="taxmsg ${full?'ok':''}">${msg}</div></div></div>`;
+  }).join('');
+}
+
+/* ============ 防線 ============ */
+function renderAlerts(){
+  $('#p-alert').innerHTML=`<div class="card" style="background:#fff3df"><h2>🚨 全程重要防線</h2>
+    <p style="font-size:12.5px;color:#7a4a00;margin:4px 0 0">出發前與每日早上掃一遍，避免踩雷。</p></div>`+
+    ALERTS.map(a=>`<div class="alert ${a.lv==='alert'?'':a.lv}"><div class="t">${esc(a.t)}</div><div class="d">${esc(a.d)}</div></div>`).join('');
+}
+
+/* ============ 設定 / 備份 ============ */
+function saveRate(){const v=parseFloat($('#rate').value);if(!v||v<=0){toast('匯率不正確');return;}RATE=v;localStorage.setItem('jpyRate',v);renderMoney();toast('匯率已更新');}
+function exportData(){
+  const data={rate:RATE,expenses:EXP,exportedAt:new Date().toISOString()};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='東京旅遊記帳備份_'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  toast('已匯出備份');
+}
+function importData(){
+  try{
+    const d=JSON.parse($('#restoreBox').value);
+    if(d.expenses){EXP=d.expenses;save();}
+    if(d.rate){RATE=d.rate;localStorage.setItem('jpyRate',d.rate);$('#rate').value=d.rate;}
+    $('#restoreBox').value='';renderMoney();toast('已還原資料');
+  }catch(e){toast('內容格式錯誤');}
+}
+function clearAll(){if(confirm('確定清空所有記帳資料？此動作無法復原（建議先匯出備份）')){EXP=[];save();renderMoney();toast('已清空');}}
+function copyPrompt(){navigator.clipboard.writeText(GEMINI_PROMPT).then(()=>toast('已複製 Gemini 指令')).catch(()=>toast('複製失敗，請手動選取'));}
+
+/* ============ 分頁 ============ */
+document.querySelectorAll('nav.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    $('#p-'+b.dataset.t).classList.add('on');
+    window.scrollTo(0,0);
+  };
+});
+
+/* ============ 啟動 ============ */
+$('#mDate').value=new Date().toISOString().slice(0,10);
+$('#rate').value=RATE;
+$('#geminiPrompt').textContent=GEMINI_PROMPT;
+renderTrip();
+renderAlerts();
+renderMoney();
+</script>
+</body>
+</html>
