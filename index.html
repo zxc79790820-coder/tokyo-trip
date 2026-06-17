@@ -72,9 +72,17 @@ const IMG={
   kimono:'1493976040374-85c8e12f0c0e', food:'1480796927426-f609979314bd',
   lantern:'1554797589-7241bb691973', fashion:'1480429370139-e0132c086e2a',
   resid:'1542931287-023b922fa89b', sakura:'1522383225653-ed111181a951',
-  aquarium:'1518467166778-b88f373ffec7'
+  aquarium:'1518467166778-b88f373ffec7',
+  toy:'1472457897821-70d3819a0e24', sneakers:'1556906781-9a412961c28c',
+  sport:'1551698618-1dfe5d97d256', outdoor:'1547949003-9792a18a2601',
+  apparel:'1441984904996-e0b6ba687e04',
+  bIsetan:'https://commons.wikimedia.org/wiki/Special:FilePath/Isetan_Shinjuku_2018.jpg?width=800',
+  bKeio:'https://commons.wikimedia.org/wiki/Special:FilePath/Shinjuku%20Keio%20Department%20Store%202012.JPG?width=800',
+  bShibuyaParco:'https://commons.wikimedia.org/wiki/Special:FilePath/Shibuya_Parco_2020.jpg?width=800',
+  bIkeParco:'https://commons.wikimedia.org/wiki/Special:FilePath/Ikebukuro_PARCO_2017-10-26.jpg?width=800',
+  bBic:'https://commons.wikimedia.org/wiki/Special:FilePath/BIC_CAMERA_headquarters_2018-01-18.jpg?width=800'
 };
-const imgUrl=(id,w)=>`https://images.unsplash.com/photo-${id}?w=${w||800}&q=70&auto=format&fit=crop`;
+const imgUrl=(id,w)=> (typeof id==='string'&&id.startsWith('http')) ? id : `https://images.unsplash.com/photo-${id}?w=${w||800}&q=70&auto=format&fit=crop`;
 
 /* ===================== 行程資料 ===================== */
 /* kid: 1-5 兒童推薦星數；0 = 改顯示 badge。big: 是否滿版。 */
@@ -94,35 +102,35 @@ const ITIN=[
   pois:[
    {nm:"陽光水族館（太陽城頂樓）",hrs:"10:00 第一站",img:IMG.aquarium,big:true,kid:5,q:"サンシャイン水族館",
     notes:["位於太陽城 World Import Mart 大樓頂樓，10:00 開門。<b>強烈建議當日第一站，趁人潮最少</b>帶多多看「天空企鵝」與海獅。停留約 1.5–2 小時。"]},
-   {nm:"寶可夢 Mega Tokyo & Pikachu Sweets",hrs:"12:00",img:IMG.sakura,big:true,kid:5,q:"ポケモンセンターメガトウキョー サンシャインシティ",
+   {nm:"寶可夢 Mega Tokyo & Pikachu Sweets",hrs:"12:00",img:IMG.toy,big:true,kid:5,q:"ポケモンセンターメガトウキョー サンシャインシティ",
     notes:["水族館下樓直接前往，同在太陽城內。Pikachu Sweets 留意現場候位。","<b>大人順路採購：</b>太陽城內把 niko and...、3COINS（買大提袋）、UNIQLO 一次買齊。"]},
    {nm:"MINT 池袋 2F・棒球卡",hrs:"14:00",img:IMG.neon,kid:4,q:"MINT 池袋",
     notes:["離開太陽城步行前往，2F 挑棒球球員卡。<b>平日 12:00 才開門</b>，14:00 前往剛好。"]},
-   {nm:"atmos 池袋店（挑鞋）",hrs:"15:00",img:IMG.fashion,kid:2,tax:"A",q:"atmos 池袋",
+   {nm:"atmos 池袋店（挑鞋）",hrs:"15:00",img:IMG.sneakers,kid:2,tax:"A",q:"atmos 池袋",
     notes:["獨立路面店挑鞋。A 制現場扣 10%。"]},
-   {nm:"池袋 PARCO 本館",hrs:"15:00+",img:IMG.fashion,kid:2,tax:"B",q:"池袋PARCO",
+   {nm:"池袋 PARCO 本館",hrs:"15:00+",img:IMG.bIkeParco,kid:2,tax:"B",q:"池袋PARCO",
     notes:["1F POTR 買包、6F RAGEBLUE 買男裝。"]},
-   {nm:"P'PARCO 別館 8F・Murasaki Sports",hrs:"接續",img:IMG.fashion,kid:2,tax:"B",q:"P'PARCO 池袋",
+   {nm:"P'PARCO 別館 8F・Murasaki Sports",hrs:"接續",img:IMG.sport,kid:2,tax:"B",q:"P'PARCO 池袋",
     notes:["與本館相連，走通道過去 8F 挑服飾配件。","<b>退稅防線：</b>PARCO 本館＋P'PARCO 消費可最後集中提著，一次到商場退稅櫃檯辦理（扣 1.55%），省下逐櫃結帳等待。"]},
-   {nm:"Bic Camera 池袋本店",hrs:"17:30 決戰",img:IMG.shinjuku,big:true,kid:3,tax:"A",q:"ビックカメラ 池袋本店",
+   {nm:"Bic Camera 池袋本店",hrs:"17:30 決戰",img:IMG.bBic,big:true,kid:3,tax:"A",q:"ビックカメラ 池袋本店",
     notes:["集中採買電器。<b>結帳出示電子機票辦「空港配送」直寄 8/24 羽田 T3</b>（需 3 天物流，D2 為最後安全結帳點）。A 制現場扣 10%。"]},
    {nm:"19:30 回新大塚卸貨",hrs:"19:30",img:IMG.resid,big:true,kid:0,badge:"🏨 卸貨",q:"新大塚駅",
     notes:["搭丸之內線僅一站，提著剩餘戰利品回新大塚舅舅家卸貨。"]},
   ]},
  {d:"D3",date:"2026-08-21",dow:"五",title:"新宿 / 原宿戰區",hero:IMG.kimono,
   pois:[
-   {nm:"新宿伊勢丹",hrs:"10:00–20:00",img:IMG.towerR,big:true,kid:2,tax:"B",q:"伊勢丹 新宿店",
+   {nm:"新宿伊勢丹",hrs:"10:00–20:00",img:IMG.bIsetan,big:true,kid:2,tax:"B",q:"伊勢丹 新宿店",
     notes:["<b>抵達後先到 6F 免稅櫃檯辦 Guest Card（憑護照正本）。</b>指定專櫃滿 ¥3,000 打 95 折，須先出示卡結帳再退 8.45%，順序顛倒無法補折。"]},
-   {nm:"京王百貨 7F・BREEZE 童裝",hrs:"10:00–20:00",img:IMG.sakura,kid:3,tax:"B",q:"京王百貨店 新宿店",
+   {nm:"京王百貨 7F・BREEZE 童裝",hrs:"10:00–20:00",img:IMG.bKeio,kid:3,tax:"B",q:"京王百貨店 新宿店",
     notes:["童裝專櫃，百貨 B 制退稅。"]},
-   {nm:"NANGA SHOP 原宿",hrs:"11:00–20:00",img:IMG.fashion,kid:2,tax:"A",q:"NANGA SHOP 原宿",
+   {nm:"NANGA SHOP 原宿",hrs:"11:00–20:00",img:IMG.outdoor,kid:2,tax:"A",q:"NANGA SHOP 原宿",
     notes:["路面店 A 制現場扣 10%。"]},
   ]},
  {d:"D4",date:"2026-08-22",dow:"六",title:"澀谷戰區 + 麻布十番納涼祭",hero:IMG.shibuya,
   pois:[
-   {nm:"澀谷 PARCO（任天堂/寶可夢）",hrs:"11:00–21:00",img:IMG.neon,big:true,kid:5,tax:"B",q:"渋谷PARCO",
+   {nm:"澀谷 PARCO（任天堂/寶可夢）",hrs:"11:00–21:00",img:IMG.bShibuyaParco,big:true,kid:5,tax:"B",q:"渋谷PARCO",
     notes:["任天堂 TOKYO／寶可夢中心／MINT B1。百貨 B 制退稅。"]},
-   {nm:"FREAK'S STORE 澀谷",hrs:"假日 11:00–20:00",img:IMG.fashion,kid:2,tax:"A",q:"FREAK'S STORE 渋谷",
+   {nm:"FREAK'S STORE 澀谷",hrs:"假日 11:00–20:00",img:IMG.apparel,kid:2,tax:"A",q:"FREAK'S STORE 渋谷",
     notes:["路面店 A 制現場扣 10%。"]},
    {nm:"麻布十番納涼祭",hrs:"17:30 前抵達",img:IMG.lantern,big:true,kid:4,badge:"🏮 祭典",q:"麻布十番駅",
     notes:["<b>17:30 前換好甚平抵達麻布十番站</b>，人潮極度擁擠。現場無垃圾桶，<b>自備塑膠袋＋濕紙巾</b>。"]},
