@@ -211,13 +211,14 @@ function render(){
     sItems.forEach(item=>{
       const isPending=pendingDelete===item.id;
       html+=`<div class="item-card bg-white rounded-2xl p-3 flex items-center gap-3 shadow-sm ${item.done?'done-item':''}">
-        <div class="w-[64px] h-[64px] rounded-xl overflow-hidden flex-none bg-slate-100 cursor-pointer"
-          onclick="openImgEdit('${item.id}')">
+        <div class="w-[64px] h-[64px] rounded-xl overflow-hidden flex-none bg-slate-100 cursor-pointer relative"
+          onclick="openItemSheet('${item.id}')">
           <img src="${esc(item.img)}" alt=""
             class="w-full h-full object-cover"
             onerror="this.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=200&q=80&fit=crop'">
+          <span class="absolute bottom-0 inset-x-0 bg-black/45 text-white text-[9px] text-center py-0.5 leading-none">✏️ 編輯</span>
         </div>
-        <div class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0 cursor-pointer" onclick="openItemSheet('${item.id}')">
           <div class="font-bold text-[14px] leading-snug ${item.done?'line-through text-slate-400':'text-slate-800'}">${esc(item.nameZh)}</div>
           <div class="text-[11px] text-slate-400 mt-0.5 leading-snug">${esc(item.nameJa)}</div>
         </div>
@@ -281,131 +282,119 @@ function openMaps(store){
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
-// ── Image inline edit (tap thumbnail) ───────────────────
-function openImgEdit(id){
-  const items=getItems();
-  const item=items.find(x=>x.id===id);
-  if(!item)return;
-  document.getElementById('sheetCard').innerHTML=`
-    <div class="px-4 pt-5 pb-3 border-b border-slate-100 flex items-center justify-between">
-      <div class="font-extrabold text-[16px]">更換商品圖片</div>
-      <button onclick="closeSheet()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-[18px]">×</button>
-    </div>
-    <div class="p-4 space-y-3">
-      <div class="w-24 h-24 rounded-2xl overflow-hidden bg-slate-100 mx-auto">
-        <img id="imgEditThumb" src="${esc(item.img)}" class="w-full h-full object-cover">
-      </div>
-      <p class="text-center text-[13px] font-bold text-slate-700">${esc(item.nameZh)}</p>
-      <div>
-        <label class="block text-[12px] font-bold text-slate-500 mb-1">圖片網址</label>
-        <div class="relative">
-          <input id="imgEditUrl" type="url" value="${esc(item.img)}"
-            class="w-full border border-slate-200 rounded-xl px-3 pr-9 py-2.5 text-[13px]"
-            oninput="document.getElementById('imgEditThumb').src=this.value">
-          <button onclick="document.getElementById('imgEditUrl').value='';document.getElementById('imgEditThumb').src=''"
-            class="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 text-slate-500 text-[11px] flex items-center justify-center leading-none">✕</button>
-        </div>
-      </div>
-      <button onclick="saveImg('${id}')" class="w-full bg-amber-500 text-white font-extrabold py-3 rounded-2xl text-[15px]">儲存</button>
-    </div>`;
-  showSheet();
-}
-function saveImg(id){
-  const url=document.getElementById('imgEditUrl').value.trim();
-  const items=getItems();
-  const item=items.find(x=>x.id===id);
-  if(item&&url)item.img=url;
-  save(items);
-  closeSheet();
-  render();
-}
+// ── 新增 / 編輯 共用表單 ─────────────────────────────────
+const FALLBACK_IMG='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=200&q=80&fit=crop';
 
-// ── Add item sheet ────────────────────────────────────────
-function openAddSheet(){
+function openAddSheet(){openItemSheet(null);}
+
+function openItemSheet(id){
   pendingDelete=null;
-  const storeOptions=DEFAULT_STORES.map(s=>`<option>${esc(s)}</option>`).join('');
+  const item=id?getItems().find(x=>x.id===id):null;
+  const isEdit=!!item;
+
+  const curStore=isEdit?item.store:'';
+  const inList=DEFAULT_STORES.includes(curStore);
+  const useCustom=isEdit&&!inList;
+  const storeOptions=DEFAULT_STORES.map(s=>
+    `<option ${s===curStore?'selected':''}>${esc(s)}</option>`).join('');
+
+  const curImg=isEdit?item.img:'';
+  const showImg=/^https?:\/\/.+/.test(curImg);
+
   document.getElementById('sheetCard').innerHTML=`
     <div class="px-4 pt-5 pb-3 border-b border-slate-100 flex items-center justify-between">
-      <div class="font-extrabold text-[17px]">新增採買商品</div>
+      <div class="font-extrabold text-[17px]">${isEdit?'編輯採買商品':'新增採買商品'}</div>
       <button onclick="closeSheet()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-[18px]">×</button>
     </div>
     <div class="p-4 space-y-3 overflow-y-auto" style="max-height:58vh">
       <div>
         <label class="block text-[12px] font-bold text-slate-500 mb-1">採買通路 <span class="text-red-400">*</span></label>
-        <select id="addStore" onchange="toggleCustomStore()"
+        <select id="itemStore" onchange="toggleCustomStore()"
           class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[14px] bg-white appearance-none">
           ${storeOptions}
-          <option value="__custom__">✏️ 自訂通路…</option>
+          <option value="__custom__" ${useCustom?'selected':''}>✏️ 自訂通路…</option>
         </select>
-        <input id="addStoreCustom" type="text" placeholder="輸入通路名稱"
-          class="hidden w-full border border-amber-300 rounded-xl px-3 py-2.5 text-[14px] mt-2 bg-amber-50">
+        <input id="itemStoreCustom" type="text" placeholder="輸入通路名稱" value="${useCustom?esc(curStore):''}"
+          class="${useCustom?'':'hidden'} w-full border border-amber-300 rounded-xl px-3 py-2.5 text-[14px] mt-2 bg-amber-50">
       </div>
       <div>
         <label class="block text-[12px] font-bold text-slate-500 mb-1">商品名稱（中文）<span class="text-red-400">*</span></label>
-        <input id="addNameZh" type="text" placeholder="例：金屬防靜電小扁梳"
+        <input id="itemNameZh" type="text" placeholder="例：金屬防靜電小扁梳" value="${isEdit?esc(item.nameZh):''}"
           class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[14px]">
       </div>
       <div>
         <label class="block text-[12px] font-bold text-slate-500 mb-1">商品名稱（日文）</label>
-        <input id="addNameJa" type="text" placeholder="例：メタルコーム（静電気防止）"
+        <input id="itemNameJa" type="text" placeholder="例：メタルコーム（静電気防止）" value="${isEdit?esc(item.nameJa):''}"
           class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[14px]">
       </div>
       <div>
         <label class="block text-[12px] font-bold text-slate-500 mb-1">商品圖片網址（選填）</label>
-        <input id="addImg" type="url" placeholder="https://..."
-          oninput="onAddImgInput(this.value)"
-          class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[14px]">
-        <div id="addImgWrap" class="hidden mt-2 w-16 h-16 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
-          <img id="addImgThumb" class="w-full h-full object-cover" src=""
-            onerror="document.getElementById('addImgWrap').classList.add('hidden')">
+        <div class="relative">
+          <input id="itemImg" type="url" placeholder="https://..." value="${isEdit?esc(item.img):''}"
+            oninput="onItemImgInput(this.value)"
+            class="w-full border border-slate-200 rounded-xl px-3 pr-9 py-2.5 text-[14px]">
+          <button type="button" onclick="clearItemImg()"
+            class="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 text-slate-500 text-[11px] flex items-center justify-center leading-none">✕</button>
+        </div>
+        <div id="itemImgWrap" class="${showImg?'':'hidden'} mt-2 w-16 h-16 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
+          <img id="itemImgThumb" class="w-full h-full object-cover" src="${showImg?esc(curImg):''}"
+            onerror="document.getElementById('itemImgWrap').classList.add('hidden')">
         </div>
       </div>
     </div>
     <div class="px-4 pt-3 pb-7">
-      <button onclick="submitAdd()" class="w-full bg-amber-500 text-white font-extrabold py-3.5 rounded-2xl text-[15px] active:scale-[.98] transition-transform shadow">
-        ＋ 確認新增
+      <button onclick="submitItem(${id?`'${id}'`:'null'})" class="w-full bg-amber-500 text-white font-extrabold py-3.5 rounded-2xl text-[15px] active:scale-[.98] transition-transform shadow">
+        ${isEdit?'✓ 儲存修改':'＋ 確認新增'}
       </button>
     </div>`;
   showSheet();
 }
 function toggleCustomStore(){
-  const sel=document.getElementById('addStore');
-  const custom=document.getElementById('addStoreCustom');
+  const sel=document.getElementById('itemStore');
+  const custom=document.getElementById('itemStoreCustom');
   if(sel.value==='__custom__'){
     custom.classList.remove('hidden');custom.focus();
   } else {
     custom.classList.add('hidden');
   }
 }
-function onAddImgInput(url){
-  const wrap=document.getElementById('addImgWrap');
-  const thumb=document.getElementById('addImgThumb');
+function onItemImgInput(url){
+  const wrap=document.getElementById('itemImgWrap');
+  const thumb=document.getElementById('itemImgThumb');
   if(/^https?:\/\/.+/.test(url)){
     thumb.src=url;wrap.classList.remove('hidden');
   } else {
     wrap.classList.add('hidden');
   }
 }
-function submitAdd(){
-  const sel=document.getElementById('addStore');
-  const storeSel=sel.value==='__custom__'
-    ?(document.getElementById('addStoreCustom').value||'').trim()
+function clearItemImg(){
+  document.getElementById('itemImg').value='';
+  document.getElementById('itemImgWrap').classList.add('hidden');
+}
+function submitItem(id){
+  const sel=document.getElementById('itemStore');
+  const store=sel.value==='__custom__'
+    ?(document.getElementById('itemStoreCustom').value||'').trim()
     :sel.value;
-  const nameZh=(document.getElementById('addNameZh').value||'').trim();
-  const nameJa=(document.getElementById('addNameJa').value||'').trim();
-  const img=(document.getElementById('addImg').value||'').trim();
+  const nameZh=(document.getElementById('itemNameZh').value||'').trim();
+  const nameJa=(document.getElementById('itemNameJa').value||'').trim();
+  const img=(document.getElementById('itemImg').value||'').trim();
 
-  if(!storeSel){alert('請選擇或輸入採買通路');return;}
+  if(!store){alert('請選擇或輸入採買通路');return;}
   if(!nameZh){alert('請輸入商品名稱（中文）');return;}
 
   const items=getItems();
-  items.push({
-    id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),
-    store:storeSel,
-    nameZh,nameJa,
-    img:img||'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=200&q=80&fit=crop',
-    done:false
-  });
+  if(id){
+    const item=items.find(x=>x.id===id);
+    if(item){item.store=store;item.nameZh=nameZh;item.nameJa=nameJa;item.img=img||FALLBACK_IMG;}
+  } else {
+    items.push({
+      id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),
+      store,nameZh,nameJa,
+      img:img||FALLBACK_IMG,
+      done:false
+    });
+  }
   save(items);
   closeSheet();
   render();
