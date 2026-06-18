@@ -57,6 +57,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['-apple-system','BlinkMacSyste
     <button data-t="tax"   class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">🏷️</span>退稅</button>
     <button data-t="alert" class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">🚨</span>防線</button>
     <button data-t="set"   class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">⚙️</span>設定</button>
+    <button data-t="shop"  class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">🛍️</span>採買</button>
   </div>
 </nav>
 
@@ -151,6 +152,21 @@ const ITIN=[
   ]},
 ];
 
+const ROUTES={
+ D1:{route:["成田機場","日暮里站","JR 大塚站","新大塚"],
+  logic:"從成田進市區最快且最直覺的鐵路路線（Skyliner 轉山手線）。抵達後在住宿周邊（新大塚松本清與 Lawson）做基本物資補給，完全不繞路。"},
+ D2:{route:["太陽城","MINT 棒球卡","atmos","池袋 PARCO／P'PARCO","Bic Camera 本店"],
+  logic:"所有點位密集排列在「池袋車站東口」步行 10 分鐘的同一商圈內，全天靠雙腿在方圓 300 公尺內移動，免搭任何交通工具。最後在 Bic Camera 買完最重的電器，直接在東口搭丸之內線僅 1 站（3 分鐘）回新大塚舅舅家。物流效率最高的一天。"},
+ D3:{route:["新大塚","新宿伊勢丹","京王百貨","BILLY'S","Yodobashi","原宿 NANGA"],
+  logic:"從新大塚搭丸之內線免轉車直達「新宿三丁目站」，一出站就是伊勢丹。接著一路往西步行穿過車站：京王百貨買童裝、路過 BILLY'S 買鞋、Yodobashi 西口本店補漏電器。最後在「新宿站」搭 JR 山手線（2 站）到「原宿站」攻 NANGA，回程從原宿搭山手線直回大塚站。動線由北往南一路順行。"},
+ D4:{route:["新大塚","澀谷 PARCO","FREAK'S STORE","新大塚（換甚平）","麻布十番（祭典）"],
+  logic:"上午從大塚站搭山手線直達澀谷，鎖定「澀谷 PARCO」一棟解決任天堂、寶可夢與 B1 MINT 棒球卡，免除室外高溫曝曬。出百貨走 3 分鐘就是 FREAK'S STORE。下午回新大塚放行李、換衣服，傍晚搭地鐵前往東邊的麻布十番參加祭典。"},
+ D5:{route:["新大塚","中野むし社","中野 Broadway"],
+  logic:"從大塚站搭山手線至高田馬場站，同站轉東西線，總車程約 20 分鐘抵達中野站。むし社與中野 Broadway 分別在車站兩側步行範圍內；Broadway 本身是全室內商場（卡牌、玩具、霜淇淋）。週日人潮多時，這種定點不跨區的移動對 8 歲小孩負擔最小。"},
+ D6:{route:["新大塚","濱松町站","羽田機場第3航廈"],
+  logic:"從大塚前往羽田機場最穩健、最不易受市區塞車影響的軌道動線（山手線轉單軌電車）。"},
+};
+
 const ALERTS=[
  {c:"red",t:"D6 09:20 退房死線",d:"8/24 早上 09:20 必須從新大塚退房出發，12:40 起飛、10:10 前報到，當天零逛街容餘。"},
  {c:"amber",t:"Bic Camera 空港配送：D2(8/20) 最後結帳點",d:"大型電器當天於池袋本店購入並辦空港配送，直寄 8/24 羽田 T3（需 3 天物流）。D6 抵羽田先到 JAL ABC 提貨，再到長榮託運。"},
@@ -178,6 +194,27 @@ const twd=n=>'NT$'+Math.round(n*RATE).toLocaleString();
 const save=()=>localStorage.setItem('expenses',JSON.stringify(EXP));
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function stars(n){let s='';for(let i=1;i<=5;i++)s+=`<span class="${i<=n?'text-amber-400':'text-white/30'}">★</span>`;return `<span class="text-[13px] tracking-tight">${s}</span>`;}
+function openRouteSheet(di){
+  const day=ITIN[di],r=ROUTES[day.d];
+  const path=r?r.route.map((s,i)=>`<span class="bg-amber-50 text-amber-700 font-bold px-2 py-0.5 rounded-lg whitespace-nowrap inline-block">${esc(s)}</span>${i<r.route.length-1?'<span class="text-slate-300 mx-1">➔</span>':''}`).join(''):'';
+  $('#sheetCard').innerHTML=`
+    <div class="relative h-40 bg-slate-700">
+      <img src="${imgUrl(day.hero)}" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-black/10"></div>
+      <button onclick="closeSheet()" class="absolute top-3 right-3 bg-black/40 text-white w-8 h-8 rounded-full text-lg leading-none">×</button>
+      <div class="absolute left-4 bottom-3 right-4 text-white">
+        <span class="inline-block bg-amber-500 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1.5">${day.d}・${day.date.slice(5)}（${day.dow}）</span>
+        <div class="text-[20px] font-extrabold leading-tight drop-shadow">${esc(day.title)}</div>
+      </div>
+    </div>
+    <div class="p-4">
+      <div class="font-extrabold text-[14px] mb-2">🧭 每日動線順路邏輯精算</div>
+      <div class="flex flex-wrap items-center gap-y-1.5 mb-3 text-[12px]">${path}</div>
+      <p class="text-[13px] text-slate-600 leading-relaxed">${r?esc(r.logic):'尚無動線資料。'}</p>
+    </div>`;
+  $('#sheet').classList.remove('hidden');document.body.classList.add('noscroll');
+  requestAnimationFrame(()=>$('#sheetCard').classList.remove('translate-y-full'));
+}
 
 /* ===================== 行程渲染 ===================== */
 let SEL=0, WX=null, WXERR=false;
@@ -204,14 +241,15 @@ function showDay(di){
   });
   const day=ITIN[di];
   let h=`<section class="fade">
-    <div class="relative h-44 rounded-2xl overflow-hidden mb-3 bg-slate-700">
+    <button onclick="openRouteSheet(${di})" class="relative w-full h-44 rounded-2xl overflow-hidden mb-3 bg-slate-700 text-left active:scale-[.99] transition-transform">
       <img src="${imgUrl(day.hero)}" loading="lazy" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"></div>
+      <span class="absolute top-2 right-2 bg-white/90 text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur">🧭 點看動線</span>
       <div class="absolute left-3 bottom-3 text-white">
         <span class="inline-block bg-amber-500 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1.5">${day.d}・${day.date.slice(5)}（${day.dow}）</span>
         <div class="text-[20px] font-extrabold leading-tight drop-shadow">${esc(day.title)}</div>
       </div>
-    </div>
+    </button>
     <div id="wxbox" class="rounded-2xl bg-gradient-to-br from-sky-50 to-indigo-50 border border-sky-100 px-4 py-3 mb-3 text-[13px] text-slate-600 flex items-center gap-3"><span class="text-2xl">⛅</span><span>天氣載入中…</span></div>
     <div class="grid grid-cols-2 gap-3">`;
   day.pois.forEach((p,pi)=>{
@@ -431,6 +469,7 @@ function copyPrompt(){navigator.clipboard.writeText(GEMINI_PROMPT).then(()=>toas
 
 /* ===================== 分頁 ===================== */
 function activeTab(t){
+  if(t==='shop'){window.location.href='shopping.html';return;}
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('text-amber-500',b.dataset.t===t));
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('font-bold',b.dataset.t===t));
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('text-slate-400',b.dataset.t!==t));
@@ -446,7 +485,8 @@ renderMoneyPage();
 renderTaxPage();
 renderAlerts();
 renderSet();
-activeTab('trip');
+const _h=location.hash.slice(1);
+activeTab(['trip','money','tax','alert','set'].includes(_h)?_h:'trip');
 </script>
 </body>
 </html>

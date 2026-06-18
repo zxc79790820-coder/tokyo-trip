@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>採買清單・東京 2026</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:-apple-system,"PingFang TC",sans-serif;background:#f2f3f5}
+.noscroll{overflow:hidden}
+#sheetCard{transition:transform .35s cubic-bezier(.32,.72,0,1)}
+.item-card{transition:opacity .25s,transform .25s}
+.done-item{opacity:.4}
+.check-btn{transition:background .2s,border-color .2s,transform .15s}
+.check-btn:active{transform:scale(.85)}
+.del-confirm{background:#ef4444!important;border-color:#ef4444!important;color:#fff!important}
+</style>
+</head>
+<body class="text-slate-800">
+
+<!-- Header -->
+<div class="sticky top-0 z-20 max-w-[480px] mx-auto">
+  <header class="bg-white/95 backdrop-blur border-b border-slate-100 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div>
+        <h1 class="text-[17px] font-extrabold leading-tight">🛍️ 採買清單</h1>
+        <p class="text-[11px] text-slate-400" id="statsBar">載入中…</p>
+      </div>
+    </div>
+    <button onclick="openAddSheet()" class="bg-amber-500 text-white text-[13px] font-bold px-4 py-2 rounded-full shadow-sm active:scale-95 transition-transform">+ 新增</button>
+  </header>
+</div>
+
+<!-- Store filter chips -->
+<div class="max-w-[480px] mx-auto px-4 pt-3 pb-1">
+  <div id="filterArea" class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide"></div>
+</div>
+
+<!-- Main list -->
+<main id="listArea" class="max-w-[480px] mx-auto px-4 pt-2 pb-28 space-y-5"></main>
+
+<!-- Bottom nav -->
+<nav class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-slate-100 pb-[env(safe-area-inset-bottom)]">
+  <div class="max-w-[480px] mx-auto flex">
+    <a href="index.html#trip"  class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">🗺️</span>行程</a>
+    <a href="index.html#money" class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">💴</span>記帳</a>
+    <a href="index.html#tax"   class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">🏷️</span>退稅</a>
+    <a href="index.html#alert" class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">🚨</span>防線</a>
+    <a href="index.html#set"   class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">⚙️</span>設定</a>
+    <span class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-amber-500 font-bold"><span class="text-xl">🛍️</span>採買</span>
+  </div>
+</nav>
+
+<!-- Bottom sheet -->
+<div id="sheet" class="hidden fixed inset-0 z-50">
+  <div onclick="closeSheet()" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+  <div class="absolute bottom-0 inset-x-0 flex justify-center pointer-events-none">
+    <div id="sheetCard" class="pointer-events-auto w-full max-w-[480px] bg-white rounded-t-3xl translate-y-full overflow-hidden shadow-2xl">
+    </div>
+  </div>
+</div>
+
+<script>
+const KEY='tokyo_shopping_2026';
+
+const DEFAULT_STORES=[
+  '3COINS','無印良品 (MUJI)','セブン-イレブン (7-Eleven)',
+  'まいばすけっと','松本清 (Matsumoto Kiyoshi)','ドン・キホーテ (Don Quijote)',
+  'ロフト (Loft)','ユニクロ (Uniqlo)','GU','ダイソー (Daiso)',
+  'Seria','カルディ (KALDI)'
+];
+
+const SEED=[
+  {
+    id:'s1',store:'3COINS',done:false,
+    nameZh:'金屬防靜電小扁梳',
+    nameJa:'メタルコーム（静電気防止）METAL COMB',
+    img:'https://images.unsplash.com/photo-1614253429340-98120bd6d753?w=200&h=200&q=80&fit=crop&auto=format'
+  },
+  {
+    id:'s2',store:'3COINS',done:false,
+    nameZh:'鏤空快乾順髮梳',
+    nameJa:'速乾ヘアブラシ（透かし穴付き）',
+    img:'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?w=200&h=200&q=80&fit=crop&auto=format'
+  },
+  {
+    id:'s3',store:'無印良品 (MUJI)',done:false,
+    nameZh:'不鏽鋼削皮器 / 刨絲器',
+    nameJa:'ステンレス 皮引き / おろし金',
+    img:'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=200&h=200&q=80&fit=crop&auto=format'
+  },
+  {
+    id:'s4',store:'セブン-イレブン (7-Eleven)',done:false,
+    nameZh:'牛奶風味鈴鐺蛋糕',
+    nameJa:'ミルク風味の鈴カステラ',
+    img:'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=200&h=200&q=80&fit=crop&auto=format'
+  },
+  {
+    id:'s5',store:'セブン-イレブン (7-Eleven)',done:false,
+    nameZh:'蒙古湯麵中本 辛旨味噌泡麵',
+    nameJa:'蒙古タンメン中本 辛旨味噌',
+    img:'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200&h=200&q=80&fit=crop&auto=format'
+  },
+  {
+    id:'s6',store:'まいばすけっと',done:false,
+    nameZh:'北海道產 鹽昆布 65g',
+    nameJa:'北海道産 塩昆布 65g',
+    img:'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=200&h=200&q=80&fit=crop&auto=format'
+  },
+  {
+    id:'s7',store:'松本清 (Matsumoto Kiyoshi)',done:false,
+    nameZh:'feat. Bright C 透明感維他命C膠囊 (60粒裝)',
+    nameJa:'feat. Bright C ビタミンC カプセル 60粒',
+    img:'https://images.unsplash.com/photo-1550572017-edd951b55104?w=200&h=200&q=80&fit=crop&auto=format'
+  }
+];
+
+// ── State ────────────────────────────────────────────────
+let activeFilter='全部';
+let pendingDelete=null; // id being single-tapped for delete confirmation
+
+function load(){
+  try{
+    const d=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(d&&Array.isArray(d))return d;
+  }catch(e){}
+  save(SEED);return SEED;
+}
+function save(items){localStorage.setItem(KEY,JSON.stringify(items));}
+function getItems(){return load();}
+
+function esc(s){
+  const d=document.createElement('div');
+  d.textContent=String(s||'');
+  return d.innerHTML;
+}
+
+// ── Render filter chips ──────────────────────────────────
+function renderFilters(stores){
+  const all=['全部',...stores];
+  document.getElementById('filterArea').innerHTML=all.map(s=>`
+    <button onclick="setFilter(${JSON.stringify(s)})"
+      class="flex-none text-[12px] font-bold px-3.5 py-1.5 rounded-full border transition-all whitespace-nowrap
+        ${activeFilter===s?'bg-amber-500 border-amber-500 text-white':'bg-white border-slate-200 text-slate-600'}">
+      ${esc(s)}
+    </button>`).join('');
+}
+function setFilter(s){activeFilter=s;render();}
+
+// ── Main render ──────────────────────────────────────────
+function render(){
+  const items=getItems();
+  const done=items.filter(x=>x.done).length;
+  const total=items.length;
+  document.getElementById('statsBar').textContent=
+    `共 ${total} 件・${done} 件已完成・${total-done} 件待購`;
+
+  // Unique stores (preserve insertion order)
+  const stores=[...new Set(items.map(x=>x.store))];
+  renderFilters(stores);
+
+  const filtered=activeFilter==='全部'?items:items.filter(x=>x.store===activeFilter);
+
+  if(filtered.length===0){
+    document.getElementById('listArea').innerHTML=`
+      <div class="text-center text-slate-400 py-20">
+        <div class="text-6xl mb-3">🛍️</div>
+        <div class="font-bold text-[15px]">尚無採買項目</div>
+        <div class="text-[13px] mt-1">點右上角「+ 新增」開始規劃</div>
+      </div>`;
+    return;
+  }
+
+  // Group by store
+  const storeMap=new Map();
+  filtered.forEach(item=>{
+    if(!storeMap.has(item.store))storeMap.set(item.store,[]);
+    storeMap.get(item.store).push(item);
+  });
+
+  let html='';
+  storeMap.forEach((sItems,store)=>{
+    // Sort: incomplete first, then done
+    sItems.sort((a,b)=>a.done-b.done);
+    const doneC=sItems.filter(x=>x.done).length;
+    const totalC=sItems.length;
+    const allDone=doneC===totalC;
+
+    html+=`<div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-[15px] ${allDone?'text-slate-400 line-through':'text-slate-800'}">${esc(store)}</span>
+          <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${allDone?'bg-green-100 text-green-600':'bg-slate-100 text-slate-400'}">${doneC}/${totalC}</span>
+        </div>
+        <button data-store="${esc(store)}" onclick="openMaps(this.dataset.store)"
+          class="flex items-center gap-1 bg-sky-50 border border-sky-200 text-sky-700 text-[11px] font-bold px-3 py-1.5 rounded-full active:scale-95 transition-transform">
+          📍 附近門市
+        </button>
+      </div>
+      <div class="space-y-2">`;
+
+    sItems.forEach(item=>{
+      const isPending=pendingDelete===item.id;
+      html+=`<div class="item-card bg-white rounded-2xl p-3 flex items-center gap-3 shadow-sm ${item.done?'done-item':''}">
+        <div class="w-[64px] h-[64px] rounded-xl overflow-hidden flex-none bg-slate-100 cursor-pointer"
+          onclick="openImgEdit('${item.id}')">
+          <img src="${esc(item.img)}" alt=""
+            class="w-full h-full object-cover"
+            onerror="this.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=200&q=80&fit=crop'">
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="font-bold text-[14px] leading-snug ${item.done?'line-through text-slate-400':'text-slate-800'}">${esc(item.nameZh)}</div>
+          <div class="text-[11px] text-slate-400 mt-0.5 leading-snug">${esc(item.nameJa)}</div>
+        </div>
+        <div class="flex items-center gap-1.5 flex-none">
+          <button data-id="${item.id}" onclick="toggleDone(this.dataset.id)"
+            class="check-btn w-9 h-9 rounded-full border-2 flex items-center justify-center text-[17px] font-bold
+              ${item.done?'bg-green-500 border-green-500 text-white':'border-slate-300 text-transparent bg-white'}">
+            ✓
+          </button>
+          <button data-id="${item.id}" onclick="tapDelete(this,this.dataset.id)"
+            class="del-btn w-9 h-9 rounded-full flex items-center justify-center text-[14px] transition-all active:scale-90
+              ${isPending?'bg-red-500 border-red-500 text-white':'bg-red-50 border border-red-200 text-red-400'}">
+            ${isPending?'刪':'✕'}
+          </button>
+        </div>
+      </div>`;
+    });
+
+    html+=`</div></div>`;
+  });
+
+  document.getElementById('listArea').innerHTML=html;
+}
+
+// ── Toggle done ───────────────────────────────────────────
+function toggleDone(id){
+  const items=getItems();
+  const item=items.find(x=>x.id===id);
+  if(item)item.done=!item.done;
+  save(items);
+  pendingDelete=null;
+  render();
+}
+
+// ── Two-tap delete ────────────────────────────────────────
+function tapDelete(btn,id){
+  if(pendingDelete===id){
+    // Second tap: actually delete
+    const items=getItems().filter(x=>x.id!==id);
+    save(items);
+    pendingDelete=null;
+    render();
+  } else {
+    // First tap: arm
+    pendingDelete=id;
+    render();
+    // Auto-disarm after 3s
+    setTimeout(()=>{
+      if(pendingDelete===id){pendingDelete=null;render();}
+    },3000);
+  }
+}
+
+// ── Open Maps ────────────────────────────────────────────
+function openMaps(store){
+  const q=encodeURIComponent(store);
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      pos=>{
+        const{latitude:lat,longitude:lng}=pos.coords;
+        window.open(`https://www.google.com/maps/search/${q}/@${lat},${lng},15z`,'_blank');
+      },
+      ()=>window.open(`https://www.google.com/maps/search/${q}+東京`,'_blank'),
+      {timeout:4000,maximumAge:60000}
+    );
+  } else {
+    window.open(`https://www.google.com/maps/search/${q}+東京`,'_blank');
+  }
+}
+
+// ── Image inline edit (tap thumbnail) ───────────────────
+function openImgEdit(id){
+  const items=getItems();
+  const item=items.find(x=>x.id===id);
+  if(!item)return;
+  document.getElementById('sheetCard').innerHTML=`
+    <div class="px-4 pt-5 pb-3 border-b border-slate-100 flex items-center justify-between">
+      <div class="font-extrabold text-[16px]">更換商品圖片</div>
+      <button onclick="closeSheet()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-[18px]">×</button>
+    </div>
+    <div class="p-4 space-y-3">
+      <div class="w-24 h-24 rounded-2xl overflow-hidden bg-slate-100 mx-auto">
+        <img id="imgEditThumb" src="${esc(item.img)}" class="w-full h-full object-cover">
+      </div>
+      <p class="text-center text-[13px] font-bold text-slate-700">${esc(item.nameZh)}</p>
+      <div>
+        <label class="block text-[12px] font-bold text-slate-500 mb-1">圖片網址</label>
+        <input id="imgEditUrl" type="url" value="${esc(item.img)}"
+          class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[13px]"
+          oninput="document.getElementById('imgEditThumb').src=this.value">
+      </div>
+      <button onclick="saveImg('${id}')" class="w-full bg-amber-500 text-white font-extrabold py-3 rounded-2xl text-[15px]">儲存</button>
+    </div>`;
+  showSheet();
+}
+function saveImg(id){
+  const url=document.getElementById('imgEditUrl').value.trim();
+  const items=getItems();
+  const item=items.find(x=>x.id===id);
+  if(item&&url)item.img=url;
+  save(items);
+  closeSheet();
+  render();
+}
+
+// ── Add item sheet ────────────────────────────────────────
+function openAddSheet(){
+  pendingDelete=null;
+  const storeOptions=DEFAULT_STORES.map(s=>`<option>${esc(s)}</option>`).join('');
+  document.getElementById('sheetCard').innerHTML=`
+    <div class="px-4 pt-5 pb-3 border-b border-slate-100 flex items-center justify-between">
+      <div class="font-extrabold text-[17px]">新增採買商品</div>
+      <button onclick="closeSheet()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-[18px]">×</button>
+    </div>
+    <div class="p-4 space-y-3 overflow-y-auto" style="max-height:58vh">
+      <div>
+        <label class="block text-[12px] font-bold text-slate-500 mb-1">採買通路 <span class="text-red-400">*</span></label>
+        <select id="addStore" onchange="toggleCustomStore()"
+          class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[14px] bg-white appearance-none">
+          ${storeOptions}
+          <option value="__custom__">✏️ 自訂通路…</option>
+        </select>
+        <input id="addStoreCustom" type="text" placeholder="輸入通路名稱"
+          class="hidden w-full border border-amber-300 rounded-xl px-3 py-2.5 text-[14px] mt-2 bg-amber-50">
+      </div>
+      <div>
+        <label class="block text-[12px] font-bold text-slate-500 mb-1">商品名稱（中文）<span class="text-red-400">*</span></label>
+        <input id="addNameZh" type="text" placeholder="例：金屬防靜電小扁梳"
+          class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[14px]">
+      </div>
+      <div>
+        <label class="block text-[12px] font-bold text-slate-500 mb-1">商品名稱（日文）</label>
+        <input id="addNameJa" type="text" placeholder="例：メタルコーム（静電気防止）"
+          class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[14px]">
+      </div>
+      <div>
+        <label class="block text-[12px] font-bold text-slate-500 mb-1">商品圖片網址（選填）</label>
+        <input id="addImg" type="url" placeholder="https://..."
+          oninput="onAddImgInput(this.value)"
+          class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[14px]">
+        <div id="addImgWrap" class="hidden mt-2 w-16 h-16 rounded-xl overflow-hidden border border-slate-200 bg-slate-100">
+          <img id="addImgThumb" class="w-full h-full object-cover" src=""
+            onerror="document.getElementById('addImgWrap').classList.add('hidden')">
+        </div>
+      </div>
+    </div>
+    <div class="px-4 pt-3 pb-7">
+      <button onclick="submitAdd()" class="w-full bg-amber-500 text-white font-extrabold py-3.5 rounded-2xl text-[15px] active:scale-[.98] transition-transform shadow">
+        ＋ 確認新增
+      </button>
+    </div>`;
+  showSheet();
+}
+function toggleCustomStore(){
+  const sel=document.getElementById('addStore');
+  const custom=document.getElementById('addStoreCustom');
+  if(sel.value==='__custom__'){
+    custom.classList.remove('hidden');custom.focus();
+  } else {
+    custom.classList.add('hidden');
+  }
+}
+function onAddImgInput(url){
+  const wrap=document.getElementById('addImgWrap');
+  const thumb=document.getElementById('addImgThumb');
+  if(/^https?:\/\/.+/.test(url)){
+    thumb.src=url;wrap.classList.remove('hidden');
+  } else {
+    wrap.classList.add('hidden');
+  }
+}
+function submitAdd(){
+  const sel=document.getElementById('addStore');
+  const storeSel=sel.value==='__custom__'
+    ?(document.getElementById('addStoreCustom').value||'').trim()
+    :sel.value;
+  const nameZh=(document.getElementById('addNameZh').value||'').trim();
+  const nameJa=(document.getElementById('addNameJa').value||'').trim();
+  const img=(document.getElementById('addImg').value||'').trim();
+
+  if(!storeSel){alert('請選擇或輸入採買通路');return;}
+  if(!nameZh){alert('請輸入商品名稱（中文）');return;}
+
+  const items=getItems();
+  items.push({
+    id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),
+    store:storeSel,
+    nameZh,nameJa,
+    img:img||'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=200&q=80&fit=crop',
+    done:false
+  });
+  save(items);
+  closeSheet();
+  render();
+}
+
+// ── Sheet show/hide ───────────────────────────────────────
+function showSheet(){
+  document.getElementById('sheet').classList.remove('hidden');
+  document.body.classList.add('noscroll');
+  requestAnimationFrame(()=>document.getElementById('sheetCard').classList.remove('translate-y-full'));
+}
+function closeSheet(){
+  document.getElementById('sheetCard').classList.add('translate-y-full');
+  setTimeout(()=>{
+    document.getElementById('sheet').classList.add('hidden');
+    document.body.classList.remove('noscroll');
+  },350);
+}
+
+// Init
+render();
+</script>
+</body>
+</html>
