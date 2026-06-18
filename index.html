@@ -51,6 +51,13 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['-apple-system','BlinkMacSyste
   <div id="sheetCard" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[560px] bg-white rounded-t-[28px] overflow-hidden translate-y-full transition-transform duration-300 max-h-[88vh] overflow-y-auto"></div>
 </div>
 
+<!-- 行程表大圖檢視（app 內，可關閉）-->
+<div id="imgLightbox" class="fixed inset-0 z-[95] hidden bg-black/95 overflow-auto" onclick="closeBigImg(event)">
+  <button onclick="closeBigImg()" class="fixed top-4 right-4 z-[96] w-10 h-10 rounded-full bg-white/20 text-white text-2xl leading-none flex items-center justify-center">×</button>
+  <img id="bigImgEl" class="block mx-auto" style="max-width:100%" onclick="toggleZoom(event)">
+  <div class="fixed bottom-4 inset-x-0 text-center text-white/55 text-[12px] pointer-events-none">點圖片放大／縮小・點空白處或 × 關閉</div>
+</div>
+
 <!-- bottom nav -->
 <nav class="fixed bottom-0 inset-x-0 z-[70] bg-white/95 backdrop-blur border-t border-slate-100 pb-[env(safe-area-inset-bottom)]">
   <div class="max-w-[560px] mx-auto flex">
@@ -220,11 +227,11 @@ function openRouteSheet(di){
     <div class="p-4">
       <div class="flex items-center justify-between mb-2">
         <div class="font-extrabold text-[14px]">📋 當日完整行程表</div>
-        <a href="${sheetImg}" target="_blank" rel="noopener" class="text-[12px] font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full">🔍 開啟大圖</a>
+        <button onclick="openBigImg('${sheetImg}')" class="text-[12px] font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full">🔍 放大檢視</button>
       </div>
-      <a href="${sheetImg}" target="_blank" rel="noopener" class="block rounded-xl overflow-hidden border border-slate-200 mb-4 active:opacity-80">
+      <button onclick="openBigImg('${sheetImg}')" class="block w-full rounded-xl overflow-hidden border border-slate-200 mb-4 active:opacity-80">
         <img src="${sheetImg}" loading="lazy" class="w-full block">
-      </a>
+      </button>
       <div class="font-extrabold text-[14px] mb-2">🧭 每日動線順路邏輯精算</div>
       <div class="flex flex-wrap items-center gap-y-1.5 mb-3 text-[12px]">${path}</div>
       <p class="text-[13px] text-slate-600 leading-relaxed">${r?esc(r.logic):'尚無動線資料。'}</p>
@@ -315,6 +322,24 @@ function openSheet(di,pi){
   requestAnimationFrame(()=>$('#sheetCard').classList.remove('translate-y-full'));
 }
 function closeSheet(){$('#sheetCard').classList.add('translate-y-full');document.body.classList.remove('noscroll');setTimeout(()=>$('#sheet').classList.add('hidden'),280);}
+
+/* ===================== 行程表大圖檢視 ===================== */
+function openBigImg(src){
+  const el=$('#bigImgEl');
+  el.src=src; el.style.maxWidth='100%'; el.style.width='';
+  const box=$('#imgLightbox'); box.scrollTop=0;
+  box.classList.remove('hidden');
+}
+function closeBigImg(e){
+  if(e&&e.target&&e.target.id==='bigImgEl')return; // 點圖本身不關（交給 toggleZoom）
+  $('#imgLightbox').classList.add('hidden');
+}
+function toggleZoom(e){
+  e.stopPropagation();
+  const el=$('#bigImgEl');
+  if(el.style.maxWidth==='none'){el.style.maxWidth='100%';el.style.width='';}
+  else{el.style.maxWidth='none';el.style.width='190%';}
+}
 
 /* ===================== 天氣（含體感＋帶傘）===================== */
 async function loadWeather(){
