@@ -27,7 +27,7 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['-apple-system','BlinkMacSyste
 <body class="font-sans text-slate-800 pb-24">
 
 <!-- header -->
-<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-100">
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-100 pt-[env(safe-area-inset-top)]">
   <div class="max-w-[560px] mx-auto px-4 py-3 flex items-center justify-between gap-2">
     <div class="min-w-0">
       <h1 class="text-[17px] font-extrabold tracking-tight">🗼 東京親子旅遊</h1>
@@ -103,19 +103,19 @@ const ITIN=[
   ]},
  {d:"D2",date:"2026-08-20",dow:"四",title:"池袋大本營・水族館＋採購",hero:IMG.neon,
   pois:[
-   {nm:"陽光水族館（太陽城頂樓）",hrs:"10:00 第一站",img:IMG.aquarium,big:true,kid:5,q:"サンシャイン水族館",
+   {nm:"陽光水族館（太陽城頂樓）",hrs:"10:00–20:00（夏季延長）",img:IMG.aquarium,big:true,kid:5,q:"サンシャイン水族館",
     notes:["位於太陽城 World Import Mart 大樓頂樓，10:00 開門。<b>強烈建議當日第一站，趁人潮最少</b>帶多多看「天空企鵝」與海獅。停留約 1.5–2 小時。"]},
-   {nm:"寶可夢 Mega Tokyo & Pikachu Sweets",hrs:"12:00",img:IMG.toy,big:true,kid:5,q:"ポケモンセンターメガトウキョー サンシャインシティ",
+   {nm:"寶可夢 Mega Tokyo & Pikachu Sweets",hrs:"10:00–20:00",img:IMG.toy,big:true,kid:5,q:"ポケモンセンターメガトウキョー サンシャインシティ",
     notes:["水族館下樓直接前往，同在太陽城內。Pikachu Sweets 留意現場候位。","<b>大人順路採購：</b>太陽城內把 niko and...、3COINS（買大提袋）、UNIQLO 一次買齊。"]},
-   {nm:"MINT 池袋 2F・棒球卡",hrs:"14:00",img:IMG.neon,kid:4,q:"MINT 池袋",
+   {nm:"MINT 池袋 2F・棒球卡",hrs:"12:00–20:00（平日）",img:IMG.neon,kid:4,q:"MINT 池袋",
     notes:["離開太陽城步行前往，2F 挑棒球球員卡。<b>平日 12:00 才開門</b>，14:00 前往剛好。"]},
-   {nm:"atmos 池袋店（挑鞋）",hrs:"15:00",img:IMG.sneakers,kid:2,tax:"A",q:"atmos 池袋",
+   {nm:"atmos 池袋店（挑鞋）",hrs:"11:00–20:00",img:IMG.sneakers,kid:2,tax:"A",q:"atmos 池袋",
     notes:["獨立路面店挑鞋。A 制現場扣 10%。"]},
-   {nm:"池袋 PARCO 本館",hrs:"15:00+",img:IMG.bIkeParco,kid:2,tax:"B",q:"池袋PARCO",
+   {nm:"池袋 PARCO 本館",hrs:"11:00–21:00",img:IMG.bIkeParco,kid:2,tax:"B",q:"池袋PARCO",
     notes:["1F POTR 買包、6F RAGEBLUE 買男裝。"]},
-   {nm:"P'PARCO 別館 8F・Murasaki Sports",hrs:"接續",img:IMG.sport,kid:2,tax:"B",q:"P'PARCO 池袋",
+   {nm:"P'PARCO 別館 8F・Murasaki Sports",hrs:"11:00–21:00",img:IMG.sport,kid:2,tax:"B",q:"P'PARCO 池袋",
     notes:["與本館相連，走通道過去 8F 挑服飾配件。","<b>退稅防線：</b>PARCO 本館＋P'PARCO 消費可最後集中提著，一次到商場退稅櫃檯辦理（扣 1.55%），省下逐櫃結帳等待。"]},
-   {nm:"Bic Camera 池袋本店",hrs:"17:30 決戰",img:IMG.bBic,big:true,kid:3,tax:"A",q:"ビックカメラ 池袋本店",
+   {nm:"Bic Camera 池袋本店",hrs:"10:00–22:00",img:IMG.bBic,big:true,kid:3,tax:"A",q:"ビックカメラ 池袋本店",
     notes:["集中採買電器。<b>結帳出示電子機票辦「空港配送」直寄 8/24 羽田 T3</b>（需 3 天物流，D2 為最後安全結帳點）。A 制現場扣 10%。"]},
    {nm:"19:30 回新大塚卸貨",hrs:"19:30",img:IMG.resid,big:true,kid:0,badge:"🏨 卸貨",q:"新大塚駅",
     notes:["搭丸之內線僅一站，提著剩餘戰利品回新大塚舅舅家卸貨。"]},
@@ -140,7 +140,7 @@ const ITIN=[
   ]},
  {d:"D5",date:"2026-08-23",dow:"日",title:"中野・むし社（昆蟲考察）",hero:IMG.green,
   pois:[
-   {nm:"むし社 中野店",hrs:"觀賞考察",img:IMG.fujiPagoda,big:true,kid:5,badge:"🪲 考察",q:"むし社 中野",
+   {nm:"むし社 中野店",hrs:"水～日 11:00–19:00（週一二休）",img:IMG.fujiPagoda,big:true,kid:5,badge:"🪲 考察",q:"むし社 中野",
     notes:["<b>活體昆蟲嚴禁購買／帶入境（台灣防檢署規定）。</b>定位純觀賞與資材考察，僅買周邊、乾燥標本或日本國產昆蟲果凍。"]},
   ]},
  {d:"D6",date:"2026-08-24",dow:"一",title:"離境日",hero:IMG.fuji,
