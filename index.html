@@ -126,6 +126,10 @@ const ITIN=[
     notes:["<b>抵達後先到 6F 免稅櫃檯辦 Guest Card（憑護照正本）。</b>指定專櫃滿 ¥3,000 打 95 折，須先出示卡結帳再退 8.45%，順序顛倒無法補折。"]},
    {nm:"京王百貨 7F・BREEZE 童裝",hrs:"10:00–20:00",img:IMG.bKeio,kid:3,tax:"B",q:"京王百貨店 新宿店",
     notes:["童裝專櫃，百貨 B 制退稅。"]},
+   {nm:"BILLY'S ENT 新宿店",hrs:"11:00–21:00",img:IMG.apparel,kid:3,tax:"A",q:"BILLY'S ENT 新宿店",
+    notes:["美式棒球帽／球員卡與童裝路面店。A 制現場扣 10%。"]},
+   {nm:"Yodobashi 新宿西口本店",hrs:"09:30–22:00",img:IMG.neon,kid:2,tax:"A",q:"ヨドバシカメラ 新宿西口本店",
+    notes:["新宿補漏電器，多棟分館（相機／電腦／家電）依清單前往。A 制現場扣 10%。"]},
    {nm:"NANGA SHOP 原宿",hrs:"11:00–20:00",img:IMG.outdoor,kid:2,tax:"A",q:"NANGA SHOP 原宿",
     notes:["路面店 A 制現場扣 10%。"]},
   ]},
@@ -142,6 +146,8 @@ const ITIN=[
   pois:[
    {nm:"むし社 中野店",hrs:"水～日 11:00–19:00（週一二休）",img:IMG.fujiPagoda,big:true,kid:5,badge:"🪲 考察",q:"むし社 中野",
     notes:["<b>活體昆蟲嚴禁購買／帶入境（台灣防檢署規定）。</b>定位純觀賞與資材考察，僅買周邊、乾燥標本或日本國產昆蟲果凍。"]},
+   {nm:"中野 Broadway（中野百老匯）",hrs:"店舖多為 12:00–20:00",img:IMG.toy,big:true,kid:4,q:"中野ブロードウェイ",
+    notes:["全室內商場：動漫、卡牌、玩具、二手收藏與まんだらけ本店；B1 有名店巨無霸霜淇淋。室內避暑，適合親子久留。"]},
   ]},
  {d:"D6",date:"2026-08-24",dow:"一",title:"離境日",hero:IMG.fuji,
   pois:[
@@ -196,8 +202,10 @@ const twd=n=>'NT$'+Math.round(n*RATE).toLocaleString();
 const save=()=>localStorage.setItem('expenses',JSON.stringify(EXP));
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function stars(n){let s='';for(let i=1;i<=5;i++)s+=`<span class="${i<=n?'text-amber-400':'text-white/30'}">★</span>`;return `<span class="text-[13px] tracking-tight">${s}</span>`;}
+const DAYSHEET=['itinerary/page1.png','itinerary/page2.png','itinerary/page3.png','itinerary/page4.png','itinerary/page5.png','itinerary/page5.png'];
 function openRouteSheet(di){
   const day=ITIN[di],r=ROUTES[day.d];
+  const sheetImg=DAYSHEET[di];
   const path=r?r.route.map((s,i)=>`<span class="bg-amber-50 text-amber-700 font-bold px-2 py-0.5 rounded-lg whitespace-nowrap inline-block">${esc(s)}</span>${i<r.route.length-1?'<span class="text-slate-300 mx-1">➔</span>':''}`).join(''):'';
   $('#sheetCard').innerHTML=`
     <div class="relative h-40 bg-slate-700">
@@ -210,6 +218,13 @@ function openRouteSheet(di){
       </div>
     </div>
     <div class="p-4">
+      <div class="flex items-center justify-between mb-2">
+        <div class="font-extrabold text-[14px]">📋 當日完整行程表</div>
+        <a href="${sheetImg}" target="_blank" rel="noopener" class="text-[12px] font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full">🔍 開啟大圖</a>
+      </div>
+      <a href="${sheetImg}" target="_blank" rel="noopener" class="block rounded-xl overflow-hidden border border-slate-200 mb-4 active:opacity-80">
+        <img src="${sheetImg}" loading="lazy" class="w-full block">
+      </a>
       <div class="font-extrabold text-[14px] mb-2">🧭 每日動線順路邏輯精算</div>
       <div class="flex flex-wrap items-center gap-y-1.5 mb-3 text-[12px]">${path}</div>
       <p class="text-[13px] text-slate-600 leading-relaxed">${r?esc(r.logic):'尚無動線資料。'}</p>
