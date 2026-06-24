@@ -30,10 +30,10 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['-apple-system','BlinkMacSyste
 <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-100 pt-[env(safe-area-inset-top)]">
   <div class="max-w-[560px] mx-auto px-4 py-3 flex items-center justify-between gap-2">
     <div class="min-w-0">
-      <h1 class="text-[17px] font-extrabold tracking-tight">🗼 東京親子旅遊</h1>
+      <h1 class="text-[17px] font-extrabold tracking-tight">東京親子旅遊</h1>
       <p class="text-[12px] text-slate-500 -mt-0.5">8/19(三)–8/24(一)・6天5夜・基地：新大塚</p>
     </div>
-    <a href="https://www.google.com/maps/search/?api=1&query=%E3%82%A8%E3%82%AF%E3%82%BB%E3%83%AB%E6%96%B0%E5%A4%A7%E5%A1%9A" target="_blank" rel="noopener" class="flex-none flex items-center gap-1 bg-amber-500 text-white text-[12px] font-bold px-3 py-2 rounded-full active:scale-95 transition-transform">🏨 基地導航</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=%E3%82%A8%E3%82%AF%E3%82%BB%E3%83%AB%E6%96%B0%E5%A4%A7%E5%A1%9A" target="_blank" rel="noopener" class="flex-none flex items-center gap-1 bg-amber-500 text-white text-[12px] font-bold px-3 py-2 rounded-full active:scale-95 transition-transform">基地導航</a>
   </div>
 </header>
 
@@ -61,12 +61,12 @@ tailwind.config={theme:{extend:{fontFamily:{sans:['-apple-system','BlinkMacSyste
 <!-- bottom nav -->
 <nav class="fixed bottom-0 inset-x-0 z-[70] bg-white/95 backdrop-blur border-t border-slate-100 pb-[env(safe-area-inset-bottom)]">
   <div class="max-w-[560px] mx-auto flex">
-    <button data-t="trip"  class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">🗺️</span>行程</button>
-    <button data-t="money" class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">💴</span>記帳</button>
-    <button data-t="tax"   class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">🏷️</span>退稅</button>
-    <button data-t="alert" class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">🚨</span>防線</button>
-    <button data-t="set"   class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">⚙️</span>設定</button>
-    <button data-t="shop"  class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]"><span class="text-xl">🛍️</span>採買</button>
+    <button data-t="trip"  class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]">行程</button>
+    <button data-t="money" class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]">記帳</button>
+    <button data-t="tax"   class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]">退稅</button>
+    <button data-t="alert" class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]">防線</button>
+    <button data-t="set"   class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]">設定</button>
+    <button data-t="shop"  class="tab flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px]">採買</button>
   </div>
 </nav>
 
@@ -99,13 +99,13 @@ const imgUrl=(id,w)=> (typeof id==='string'&&id.startsWith('http')) ? id : `http
 const ITIN=[
  {d:"D1",date:"2026-08-19",dow:"三",title:"抵達日・夜間補給",hero:IMG.tower,
   pois:[
-   {nm:"成田機場 第2航廈",hrs:"18:35 落地",img:IMG.towerR,big:true,kid:0,badge:"✈️ 抵達",q:"成田空港 第2ターミナル",
+   {nm:"成田機場 第2航廈",hrs:"18:35 落地",img:IMG.towerR,big:true,kid:0,badge:"抵達",q:"成田空港 第2ターミナル",
     notes:["出關後搭京成 Skyliner 轉 JR 山手線，抵新大塚預估已過 21:30。"]},
-   {nm:"日暮里站・兒童 Suica",hrs:"轉車時辦",img:IMG.resid,kid:0,badge:"🚃 交通",q:"日暮里駅 みどりの窓口",
+   {nm:"日暮里站・兒童 Suica",hrs:"轉車時辦",img:IMG.resid,kid:0,badge:"交通",q:"日暮里駅 みどりの窓口",
     notes:["<b>持多多護照</b>到 JR 東日本綠色窗口辦實體「兒童版 Suica」，大眾運輸資費減半。大人用 Apple Pay／Google 數位 Suica。"]},
-   {nm:"エクセル新大塚",hrs:"Check-in",img:IMG.resid,kid:0,badge:"🏨 住宿",q:"エクセル新大塚",
+   {nm:"エクセル新大塚",hrs:"Check-in",img:IMG.resid,kid:0,badge:"住宿",q:"エクセル新大塚",
     notes:["丸之內線新大塚站／JR 山手線大塚站。"]},
-   {nm:"夜間：藥妝＋超商補給",hrs:"~22:00",img:IMG.food,big:true,kid:0,badge:"🛒 補給",q:"新大塚 ドラッグストア",
+   {nm:"夜間：藥妝＋超商補給",hrs:"~22:00",img:IMG.food,big:true,kid:0,badge:"補給",q:"新大塚 ドラッグストア",
     notes:["首日僅執行夜間耗材與超商補給，不安排逛街。"]},
   ]},
  {d:"D2",date:"2026-08-20",dow:"四",title:"池袋大本營・水族館＋採購",hero:IMG.neon,
@@ -124,7 +124,7 @@ const ITIN=[
     notes:["與本館相連，走通道過去 8F 挑服飾配件。","<b>退稅防線：</b>PARCO 本館＋P'PARCO 消費可最後集中提著，一次到商場退稅櫃檯辦理（扣 1.55%），省下逐櫃結帳等待。"]},
    {nm:"Bic Camera 池袋本店",hrs:"10:00–22:00",img:IMG.bBic,big:true,kid:3,tax:"A",q:"ビックカメラ 池袋本店",
     notes:["集中採買電器。<b>結帳出示電子機票辦「空港配送」直寄 8/24 羽田 T3</b>（需 3 天物流，D2 為最後安全結帳點）。A 制現場扣 10%。"]},
-   {nm:"19:30 回新大塚卸貨",hrs:"19:30",img:IMG.resid,big:true,kid:0,badge:"🏨 卸貨",q:"新大塚駅",
+   {nm:"19:30 回新大塚卸貨",hrs:"19:30",img:IMG.resid,big:true,kid:0,badge:"卸貨",q:"新大塚駅",
     notes:["搭丸之內線僅一站，提著剩餘戰利品回新大塚舅舅家卸貨。"]},
   ]},
  {d:"D3",date:"2026-08-21",dow:"五",title:"新宿 / 原宿戰區",hero:IMG.kimono,
@@ -146,23 +146,23 @@ const ITIN=[
     notes:["任天堂 TOKYO／寶可夢中心／MINT B1。百貨 B 制退稅。"]},
    {nm:"FREAK'S STORE 澀谷",hrs:"假日 11:00–20:00",img:IMG.apparel,kid:2,tax:"A",q:"FREAK'S STORE 渋谷",
     notes:["路面店 A 制現場扣 10%。"]},
-   {nm:"麻布十番納涼祭",hrs:"17:30 前抵達",img:IMG.lantern,big:true,kid:4,badge:"🏮 祭典",q:"麻布十番駅",
+   {nm:"麻布十番納涼祭",hrs:"17:30 前抵達",img:IMG.lantern,big:true,kid:4,badge:"祭典",q:"麻布十番駅",
     notes:["<b>17:30 前換好甚平抵達麻布十番站</b>，人潮極度擁擠。現場無垃圾桶，<b>自備塑膠袋＋濕紙巾</b>。"]},
   ]},
  {d:"D5",date:"2026-08-23",dow:"日",title:"中野・むし社（昆蟲考察）",hero:IMG.green,
   pois:[
-   {nm:"むし社 中野店",hrs:"水～日 11:00–19:00（週一二休）",img:IMG.fujiPagoda,big:true,kid:5,badge:"🪲 考察",q:"むし社 中野",
+   {nm:"むし社 中野店",hrs:"水～日 11:00–19:00（週一二休）",img:IMG.fujiPagoda,big:true,kid:5,badge:"考察",q:"むし社 中野",
     notes:["<b>活體昆蟲嚴禁購買／帶入境（台灣防檢署規定）。</b>定位純觀賞與資材考察，僅買周邊、乾燥標本或日本國產昆蟲果凍。"]},
    {nm:"中野 Broadway（中野百老匯）",hrs:"店舖多為 12:00–20:00",img:IMG.toy,big:true,kid:4,q:"中野ブロードウェイ",
     notes:["全室內商場：動漫、卡牌、玩具、二手收藏與まんだらけ本店；B1 有名店巨無霸霜淇淋。室內避暑，適合親子久留。"]},
   ]},
  {d:"D6",date:"2026-08-24",dow:"一",title:"離境日",hero:IMG.fuji,
   pois:[
-   {nm:"⏰ 09:20 新大塚退房",hrs:"09:20 死線",img:IMG.resid,big:true,kid:0,badge:"⏰ 時限",q:"エクセル新大塚",
+   {nm:"09:20 新大塚退房",hrs:"09:20 死線",img:IMG.resid,big:true,kid:0,badge:"時限",q:"エクセル新大塚",
     notes:["<b>當天無任何逛街餘裕。</b>"]},
-   {nm:"羽田 T3・JAL ABC 提貨",hrs:"10:10 前報到",img:IMG.towerR,kid:0,badge:"📦 提貨",q:"羽田空港 第3ターミナル JAL ABC",
+   {nm:"羽田 T3・JAL ABC 提貨",hrs:"10:10 前報到",img:IMG.towerR,kid:0,badge:"提貨",q:"羽田空港 第3ターミナル JAL ABC",
     notes:["先到 JAL ABC 提 Bic Camera 空港配送品 → 再推至長榮櫃檯託運。"]},
-   {nm:"長榮 BR191 羽田→松山",hrs:"12:40 起飛",img:IMG.fuji,kid:0,badge:"✈️ 離境",q:"羽田空港 第3ターミナル 出発",
+   {nm:"長榮 BR191 羽田→松山",hrs:"12:40 起飛",img:IMG.fuji,kid:0,badge:"離境",q:"羽田空港 第3ターミナル 出発",
     notes:["10:10 前必須完成國際線報到。15:05 抵松山。"]},
   ]},
 ];
@@ -226,13 +226,13 @@ function openRouteSheet(di){
     </div>
     <div class="p-4">
       <div class="flex items-center justify-between mb-2">
-        <div class="font-extrabold text-[14px]">📋 當日完整行程表</div>
-        <button onclick="openBigImg('${sheetImg}')" class="text-[12px] font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full">🔍 放大檢視</button>
+        <div class="font-extrabold text-[14px]">當日完整行程表</div>
+        <button onclick="openBigImg('${sheetImg}')" class="text-[12px] font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full">放大檢視</button>
       </div>
       <button onclick="openBigImg('${sheetImg}')" class="block w-full rounded-xl overflow-hidden border border-slate-200 mb-4 active:opacity-80">
         <img src="${sheetImg}" loading="lazy" class="w-full block">
       </button>
-      <div class="font-extrabold text-[14px] mb-2">🧭 每日動線順路邏輯精算</div>
+      <div class="font-extrabold text-[14px] mb-2">每日動線順路邏輯精算</div>
       <div class="flex flex-wrap items-center gap-y-1.5 mb-3 text-[12px]">${path}</div>
       <p class="text-[13px] text-slate-600 leading-relaxed">${r?esc(r.logic):'尚無動線資料。'}</p>
     </div>`;
@@ -268,23 +268,23 @@ function showDay(di){
     <button onclick="openRouteSheet(${di})" class="relative w-full h-44 rounded-2xl overflow-hidden mb-3 bg-slate-700 text-left active:scale-[.99] transition-transform">
       <img src="${imgUrl(day.hero)}" loading="lazy" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"></div>
-      <span class="absolute top-2 right-2 bg-white/90 text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur">🧭 點看動線</span>
+      <span class="absolute top-2 right-2 bg-white/90 text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur">點看動線</span>
       <div class="absolute left-3 bottom-3 text-white">
         <span class="inline-block bg-amber-500 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1.5">${day.d}・${day.date.slice(5)}（${day.dow}）</span>
         <div class="text-[20px] font-extrabold leading-tight drop-shadow">${esc(day.title)}</div>
       </div>
     </button>
-    <div id="wxbox" class="rounded-2xl bg-gradient-to-br from-sky-50 to-indigo-50 border border-sky-100 px-4 py-3 mb-3 text-[13px] text-slate-600 flex items-center gap-3"><span class="text-2xl">⛅</span><span>天氣載入中…</span></div>
+    <div id="wxbox" class="rounded-2xl bg-gradient-to-br from-sky-50 to-indigo-50 border border-sky-100 px-4 py-3 mb-3 text-[13px] text-slate-600 flex items-center gap-3"><span class="text-2xl"></span><span>天氣載入中…</span></div>
     <div class="grid grid-cols-2 gap-3">`;
   day.pois.forEach((p,pi)=>{
     const span=p.big?'col-span-2 h-44':'h-40';
     h+=`<button onclick="openSheet(${di},${pi})" class="relative ${span} rounded-2xl overflow-hidden text-left bg-slate-700 active:scale-[.98] transition-transform">
       <img src="${imgUrl(p.img)}" loading="lazy" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/5"></div>
-      <span onclick="event.stopPropagation();window.open('${mapUrl(p.q)}','_blank')" class="absolute top-2 right-2 bg-white/90 text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur">📍 地圖</span>
+      <span onclick="event.stopPropagation();window.open('${mapUrl(p.q)}','_blank')" class="absolute top-2 right-2 bg-white/90 text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur">地圖</span>
       <div class="absolute inset-x-0 bottom-0 p-3 text-white">
         <div class="font-extrabold leading-tight ${p.big?'text-[16px]':'text-[14px]'} drop-shadow">${esc(p.nm)}</div>
-        <div class="text-[11.5px] opacity-90 mt-0.5">🕘 ${esc(p.hrs)}</div>
+        <div class="text-[11.5px] opacity-90 mt-0.5">${esc(p.hrs)}</div>
         <div class="mt-1">${p.kid>0?stars(p.kid):`<span class="inline-block bg-white/20 backdrop-blur text-[11px] font-bold px-2 py-0.5 rounded-full">${esc(p.badge||'')}</span>`}</div>
       </div>
     </button>`;
@@ -307,7 +307,7 @@ function openSheet(di,pi){
       <button onclick="closeSheet()" class="absolute top-3 right-3 bg-black/40 text-white w-8 h-8 rounded-full text-lg leading-none">×</button>
       <div class="absolute left-4 bottom-3 right-4 text-white">
         <div class="text-[20px] font-extrabold leading-tight drop-shadow">${esc(p.nm)}</div>
-        <div class="text-[12.5px] opacity-90 mt-1">🕘 ${esc(p.hrs)}</div>
+        <div class="text-[12.5px] opacity-90 mt-1">${esc(p.hrs)}</div>
       </div>
     </div>
     <div class="p-4">
@@ -316,7 +316,7 @@ function openSheet(di,pi){
         ${taxTxt}
       </div>
       ${notes||'<div class="text-[13px] text-slate-400 mt-2">無特別注意事項。</div>'}
-      <a href="${mapUrl(p.q)}" target="_blank" class="block text-center bg-blue-600 text-white font-bold py-3 rounded-2xl mt-4">📍 在 Google Map 開啟</a>
+      <a href="${mapUrl(p.q)}" target="_blank" class="block text-center bg-blue-600 text-white font-bold py-3 rounded-2xl mt-4">在 Google Map 開啟</a>
     </div>`;
   const s=$('#sheet');s.classList.remove('hidden');document.body.classList.add('noscroll');
   requestAnimationFrame(()=>$('#sheetCard').classList.remove('translate-y-full'));
@@ -352,10 +352,10 @@ async function loadWeather(){
 }
 function renderDayWeather(){
   const box=$('#wxbox');if(!box)return;
-  if(WXERR){box.innerHTML=`<span class="text-2xl">📡</span><span>天氣載入失敗，請確認網路</span>`;return;}
+  if(WXERR){box.innerHTML=`<span class="text-2xl"></span><span>天氣載入失敗，請確認網路</span>`;return;}
   if(!WX)return;
   const w=WX[ITIN[SEL].date];
-  if(!w){box.innerHTML=`<span class="text-2xl">📅</span><span>預報尚未開放（出發前約 16 天提供當日預報）</span>`;return;}
+  if(!w){box.innerHTML=`<span class="text-2xl"></span><span>預報尚未開放（出發前約 16 天提供當日預報）</span>`;return;}
   const wc=wxCode(w.c),um=umbrella(w.pop,w.ps);
   box.innerHTML=`<span class="text-3xl">${wc.e}</span>
     <div class="leading-tight">
@@ -365,19 +365,19 @@ function renderDayWeather(){
     <span class="ml-auto text-[12px] font-bold px-2.5 py-1 rounded-full ${um.cls}">${um.t}</span>`;
 }
 function umbrella(pop,ps){
-  if((pop>=50)||(ps>=2)) return {t:'☔ 建議帶傘',cls:'bg-blue-600 text-white'};
-  if(pop>=30) return {t:'🌂 可備傘',cls:'bg-amber-100 text-amber-700'};
-  return {t:'☀️ 免帶傘',cls:'bg-emerald-100 text-emerald-700'};
+  if((pop>=50)||(ps>=2)) return {t:'建議帶傘',cls:'bg-blue-600 text-white'};
+  if(pop>=30) return {t:'可備傘',cls:'bg-amber-100 text-amber-700'};
+  return {t:'免帶傘',cls:'bg-emerald-100 text-emerald-700'};
 }
 function wxCode(c){
-  if(c===0)return{e:'☀️',d:'晴'};
-  if([1,2,3].includes(c))return{e:'⛅',d:'多雲'};
-  if([45,48].includes(c))return{e:'🌫️',d:'霧'};
-  if([51,53,55,56,57].includes(c))return{e:'🌦️',d:'毛毛雨'};
-  if([61,63,65,66,67,80,81,82].includes(c))return{e:'🌧️',d:'下雨'};
-  if([71,73,75,77,85,86].includes(c))return{e:'❄️',d:'雪'};
-  if([95,96,99].includes(c))return{e:'⛈️',d:'雷雨'};
-  return{e:'⛅',d:'多雲'};
+  if(c===0)return{e:'',d:'晴'};
+  if([1,2,3].includes(c))return{e:'',d:'多雲'};
+  if([45,48].includes(c))return{e:'',d:'霧'};
+  if([51,53,55,56,57].includes(c))return{e:'',d:'毛毛雨'};
+  if([61,63,65,66,67,80,81,82].includes(c))return{e:'',d:'下雨'};
+  if([71,73,75,77,85,86].includes(c))return{e:'',d:'雪'};
+  if([95,96,99].includes(c))return{e:'',d:'雷雨'};
+  return{e:'',d:'多雲'};
 }
 
 /* ===================== 記帳 ===================== */
@@ -388,7 +388,7 @@ function renderMoneyPage(){
       <div class="bg-white rounded-2xl shadow-sm p-4 text-center"><div id="sumTwd" class="text-2xl font-extrabold">NT$0</div><div class="text-[11px] text-slate-500 mt-0.5">約合台幣</div></div>
     </div>
     <div class="bg-white rounded-2xl shadow-sm p-4 mb-3">
-      <h2 class="font-bold mb-3">✍️ 手動記帳</h2>
+      <h2 class="font-bold mb-3">手動記帳</h2>
       <div class="grid grid-cols-2 gap-3">
         <div><label class="lbl">日期</label><input type="date" id="mDate" class="inp"></div>
         <div><label class="lbl">金額(日幣)</label><input type="number" id="mAmt" inputmode="numeric" placeholder="0" class="inp"></div>
@@ -400,7 +400,7 @@ function renderMoneyPage(){
       <button onclick="addManual()" class="w-full bg-amber-500 text-white font-bold py-3 rounded-2xl mt-4">＋ 新增一筆</button>
     </div>
     <details class="bg-white rounded-2xl shadow-sm px-4 mb-3">
-      <summary class="font-bold py-3.5 cursor-pointer select-none">📋 貼上匯入（Gemini 拍照分析用）</summary>
+      <summary class="font-bold py-3.5 cursor-pointer select-none">貼上匯入（Gemini 拍照分析用）</summary>
       <div class="pb-4">
         <div class="text-[12px] text-slate-500 bg-indigo-50 rounded-xl p-3">把收據／信用卡明細拍照丟給 Gemini，用下方指令請它輸出固定格式，再整段貼進來。格式：<b>日期,店家,類別,金額,退稅,備註</b></div>
         <pre id="geminiPrompt" class="bg-slate-900 text-lime-300 text-[12px] p-3 rounded-xl whitespace-pre-wrap break-words mt-2 font-mono"></pre>
@@ -409,8 +409,8 @@ function renderMoneyPage(){
         <button onclick="importBulk()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-2xl mt-2">匯入以上資料</button>
       </div>
     </details>
-    <div class="bg-white rounded-2xl shadow-sm p-4 mb-3"><h2 class="font-bold mb-2">🧾 消費明細</h2><div id="expList"></div></div>
-    <div class="bg-white rounded-2xl shadow-sm p-4"><h2 class="font-bold mb-2">📊 分類統計</h2><div id="catStat"></div></div>`;
+    <div class="bg-white rounded-2xl shadow-sm p-4 mb-3"><h2 class="font-bold mb-2">消費明細</h2><div id="expList"></div></div>
+    <div class="bg-white rounded-2xl shadow-sm p-4"><h2 class="font-bold mb-2">分類統計</h2><div id="catStat"></div></div>`;
   $('#mDate').value=new Date().toISOString().slice(0,10);
   $('#geminiPrompt').textContent=GEMINI_PROMPT;
   renderMoney();
@@ -464,7 +464,7 @@ function renderTaxTrack(){
   const arr=Object.values(g).sort((a,b)=>b.date.localeCompare(a.date)||b.sum-a.sum);
   if(!arr.length){box.innerHTML='<div class="bg-white rounded-2xl shadow-sm text-center text-slate-400 text-[13px] py-8">記帳時把「退稅」選 A 或 B，這裡就會自動追蹤門檻</div>';return;}
   box.innerHTML=arr.map(x=>{const pct=Math.min(100,Math.round(x.sum/TH*100));const full=x.sum>=TH;const diff=TH-x.sum;
-    const msg=full?`✅ 已達門檻（${x.tax}制）${x.sum>=5500?'，含稅亦穩過':'，注意門檻為不含稅，含稅約需 ¥5,500'}`:`再消費 <b>${yen(diff)}</b> 可達 ¥5,000 門檻（${x.tax}制）`;
+    const msg=full?`已達門檻（${x.tax}制）${x.sum>=5500?'，含稅亦穩過':'，注意門檻為不含稅，含稅約需 ¥5,500'}`:`再消費 <b>${yen(diff)}</b> 可達 ¥5,000 門檻（${x.tax}制）`;
     return `<div class="bg-white rounded-2xl shadow-sm p-4 mb-2.5">
       <div class="flex justify-between font-bold text-[14px]"><span>${esc(x.store)}</span><span>${yen(x.sum)}</span></div>
       <div class="text-[11px] text-slate-400">${x.date}</div>
@@ -475,7 +475,7 @@ function renderTaxTrack(){
 /* ===================== 防線 ===================== */
 function renderAlerts(){
   const cmap={red:'border-red-500',amber:'border-amber-500',blue:'border-blue-500'};
-  $('#p-alert').innerHTML=`<div class="bg-amber-50 rounded-2xl p-4 mb-3 fade"><h2 class="font-bold">🚨 全程重要防線</h2><p class="text-[12.5px] text-amber-800 mt-1">出發前與每日早上掃一遍，避免踩雷。</p></div>`+
+  $('#p-alert').innerHTML=`<div class="bg-amber-50 rounded-2xl p-4 mb-3 fade"><h2 class="font-bold">全程重要防線</h2><p class="text-[12.5px] text-amber-800 mt-1">出發前與每日早上掃一遍，避免踩雷。</p></div>`+
     ALERTS.map(a=>`<div class="bg-white rounded-2xl shadow-sm p-4 mb-2.5 border-l-4 ${cmap[a.c]}"><div class="font-extrabold text-[14px]">${esc(a.t)}</div><div class="text-[12.5px] text-slate-600 mt-1">${esc(a.d)}</div></div>`).join('');
 }
 
@@ -483,13 +483,13 @@ function renderAlerts(){
 function renderSet(){
   $('#p-set').innerHTML=`
     <div class="bg-white rounded-2xl shadow-sm p-4 mb-3 fade">
-      <h2 class="font-bold mb-3">💱 匯率設定</h2>
+      <h2 class="font-bold mb-3">匯率設定</h2>
       <label class="lbl">1 日圓 = ? 台幣</label><input type="number" id="rate" step="0.001" inputmode="decimal" class="inp">
       <button onclick="saveRate()" class="w-full bg-amber-500 text-white font-bold py-3 rounded-2xl mt-3">儲存匯率</button>
       <div class="text-[12px] text-slate-500 bg-indigo-50 rounded-xl p-3 mt-3">台幣換算使用此固定匯率，現場斷網也能算。建議出發前更新一次。</div>
     </div>
     <div class="bg-white rounded-2xl shadow-sm p-4 mb-3">
-      <h2 class="font-bold mb-2">💾 資料備份</h2>
+      <h2 class="font-bold mb-2">資料備份</h2>
       <div class="text-[12px] text-slate-500 bg-indigo-50 rounded-xl p-3">資料存在本機瀏覽器，清除快取會消失。建議每晚匯出備份一次。</div>
       <button onclick="exportData()" class="w-full bg-slate-100 text-slate-700 font-bold py-3 rounded-2xl mt-3">匯出備份（下載檔案）</button>
       <label class="lbl mt-3">還原：貼上備份內容</label><textarea id="restoreBox" class="inp min-h-[80px]" placeholder="貼上之前匯出的 JSON 內容"></textarea>
@@ -497,7 +497,7 @@ function renderSet(){
       <button onclick="clearAll()" class="w-full bg-red-50 text-red-600 font-bold py-3 rounded-2xl mt-2">清空所有記帳資料</button>
     </div>
     <div class="bg-white rounded-2xl shadow-sm p-4">
-      <h2 class="font-bold mb-2">ℹ️ 關於</h2>
+      <h2 class="font-bold mb-2">ℹ 關於</h2>
       <p class="text-[13px] text-slate-600 my-1">航班：去 IT202 8/19 桃園14:25→成田18:35(T2)；回 BR191 8/24 羽田12:40(T3)→松山15:05。</p>
       <p class="text-[13px] text-slate-600 my-1">天氣：Open-Meteo（出發前約16天起顯示真實預報，含體感溫度與帶傘建議）。</p>
     </div>`;

@@ -28,7 +28,7 @@ body{font-family:-apple-system,"PingFang TC",sans-serif;background:#f2f3f5}
   <header class="bg-white/95 backdrop-blur border-b border-slate-100 px-4 py-3 flex items-center justify-between">
     <div class="flex items-center gap-2">
       <div>
-        <h1 class="text-[17px] font-extrabold leading-tight">🛍️ 採買清單</h1>
+        <h1 class="text-[17px] font-extrabold leading-tight">採買清單</h1>
         <p class="text-[11px] text-slate-400" id="statsBar">載入中…</p>
       </div>
     </div>
@@ -47,12 +47,12 @@ body{font-family:-apple-system,"PingFang TC",sans-serif;background:#f2f3f5}
 <!-- Bottom nav -->
 <nav class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-slate-100 pb-[env(safe-area-inset-bottom)]">
   <div class="max-w-[480px] mx-auto flex">
-    <a href="index.html#trip"  class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">🗺️</span>行程</a>
-    <a href="index.html#money" class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">💴</span>記帳</a>
-    <a href="index.html#tax"   class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">🏷️</span>退稅</a>
-    <a href="index.html#alert" class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">🚨</span>防線</a>
-    <a href="index.html#set"   class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400"><span class="text-xl">⚙️</span>設定</a>
-    <span class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-amber-500 font-bold"><span class="text-xl">🛍️</span>採買</span>
+    <a href="index.html#trip"  class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400">行程</a>
+    <a href="index.html#money" class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400">記帳</a>
+    <a href="index.html#tax"   class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400">退稅</a>
+    <a href="index.html#alert" class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400">防線</a>
+    <a href="index.html#set"   class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-slate-400">設定</a>
+    <span class="flex-1 py-2.5 flex flex-col items-center gap-0.5 text-[11px] text-amber-500 font-bold">採買</span>
   </div>
 </nav>
 
@@ -185,7 +185,7 @@ function render(){
   if(filtered.length===0){
     document.getElementById('listArea').innerHTML=`
       <div class="text-center text-slate-400 py-20">
-        <div class="text-6xl mb-3">🛍️</div>
+        <div class="text-6xl mb-3"></div>
         <div class="font-bold text-[15px]">尚無採買項目</div>
         <div class="text-[13px] mt-1">點右上角「+ 新增」開始規劃</div>
       </div>`;
@@ -215,7 +215,7 @@ function render(){
         </div>
         <button data-store="${esc(store)}" onclick="openMaps(this.dataset.store)"
           class="flex items-center gap-1 bg-sky-50 border border-sky-200 text-sky-700 text-[11px] font-bold px-3 py-1.5 rounded-full active:scale-95 transition-transform">
-          📍 附近門市
+          附近門市
         </button>
       </div>
       <div class="space-y-2">`;
@@ -228,7 +228,7 @@ function render(){
           <img src="${esc(item.img)}" alt=""
             class="w-full h-full object-cover"
             onerror="this.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=200&q=80&fit=crop'">
-          <span class="absolute bottom-0 inset-x-0 bg-black/45 text-white text-[9px] text-center py-0.5 leading-none">🔍 放大</span>
+          <span class="absolute bottom-0 inset-x-0 bg-black/45 text-white text-[9px] text-center py-0.5 leading-none">放大</span>
         </div>
         <div class="flex-1 min-w-0 cursor-pointer" onclick="openItemSheet('${item.id}')">
           <div class="font-bold text-[14px] leading-snug ${item.done?'line-through text-slate-400':'text-slate-800'}">${esc(item.nameZh)}</div>
@@ -345,7 +345,7 @@ function openItemSheet(id){
         <select id="itemStore" onchange="toggleCustomStore()"
           class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-[14px] bg-white appearance-none">
           ${storeOptions}
-          <option value="__custom__" ${useCustom?'selected':''}>✏️ 自訂通路…</option>
+          <option value="__custom__" ${useCustom?'selected':''}>自訂通路…</option>
         </select>
         <input id="itemStoreCustom" type="text" placeholder="輸入通路名稱" value="${useCustom?esc(curStore):''}"
           class="${useCustom?'':'hidden'} w-full border border-amber-300 rounded-xl px-3 py-2.5 text-[14px] mt-2 bg-amber-50">
